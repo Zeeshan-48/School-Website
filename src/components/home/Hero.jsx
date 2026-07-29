@@ -3,268 +3,296 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ArrowRight, Award, Send, CheckCircle2, Sparkles, User, Phone, BookOpen } from 'lucide-react';
 import { HERO_SLIDES } from '../../data/hero';
 import { Button } from '../common/Button';
+import { getFallbackUrl } from '../../utils/images';
 
 export const Hero = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    parentName: '',
-    phone: '',
-    grade: 'Nursery'
-  });
+ const [currentSlide, setCurrentSlide] = useState(0);
+ const [isSubmitted, setIsSubmitted] = useState(false);
+ const [formData, setFormData] = useState({
+ parentName: '',
+ phone: '',
+ grade: 'Nursery'
+ });
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [currentSlide]);
+ useEffect(() => {
+ const timer = setInterval(() => {
+ setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+ }, 5000);
+ return () => clearInterval(timer);
+ }, [currentSlide]);
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+ const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+ const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.parentName && formData.phone) {
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({ parentName: '', phone: '', grade: 'Nursery' });
-      }, 5000);
-    }
-  };
+ const handleSubmit = (e) => {
+ e.preventDefault();
+ if (formData.parentName && formData.phone) {
+ setIsSubmitted(true);
+ setTimeout(() => {
+ setIsSubmitted(false);
+ setFormData({ parentName: '', phone: '', grade: 'Nursery' });
+ }, 5000);
+ }
+ };
 
-  const slide = HERO_SLIDES[currentSlide];
+ const slide = HERO_SLIDES[currentSlide];
 
-  return (
-    <section className="relative w-full min-h-screen bg-slate-950 pt-24 sm:pt-28 pb-16">
+ return (
+ // mt-19 perfectly offsets the navbar. 
+ // lg:h-[calc(100vh-76px)] ensures it fits the remaining screen space perfectly on desktop without scrolling.
+ <section className="relative w-full bg-slate-950 mt-19 lg:h-[calc(100vh-76px)] min-h-[calc(100vh-76px)] flex items-center overflow-hidden">
 
-      {/* Background Image Carousel with Overlay */}
-      <AnimatePresence>
-        <motion.div
-          key={slide.id}
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="absolute inset-0 z-0"
-        >
-          <img
-            src={slide.bgImage}
-            alt={slide.title}
-            onError={(e) => { e.target.onerror = null; e.target.src = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1920&auto=format&fit=crop"; }}
-            className="w-full h-full object-cover object-top"
-          />
-          {/* Reduced Opacity Gradient Overlays for Brighter Images */}
-          <div className="absolute inset-0 bg-linear-to-r from-slate-950/75 via-slate-950/50 to-slate-950/20" />
-          <div className="absolute inset-0 bg-linear-to-t from-slate-950/60 via-transparent to-transparent opacity-50" />
-        </motion.div>
-      </AnimatePresence>
+ {/* Carousel Layer */}
+ <div className="absolute inset-0 z-0">
+ <AnimatePresence>
+ <motion.div
+ key={slide.id}
+ initial={{ opacity: 0, scale: 1.05 }}
+ animate={{ opacity: 1, scale: 1 }}
+ exit={{ opacity: 0, scale: 0.95 }}
+ transition={{ duration: 1.2, ease: "easeInOut" }}
+ className="absolute inset-0 bg-slate-950 flex items-center justify-center"
+ >
+ {/* Blurred background layer to gracefully handle any aspect ratio letterboxing */}
+ <img
+ src={slide.bgImage}
+ alt=""
+ onError={(e) => { e.target.onerror = null; e.target.src = getFallbackUrl(['indian', 'school', 'hero']); }}
+ className="absolute inset-0 w-full h-full object-cover opacity-20 blur-2xl"
+ />
+ {/* object-contain ensures the image is NEVER cut from any side. */}
+ <img
+ src={slide.bgImage}
+ alt={slide.title}
+ onError={(e) => { e.target.onerror = null; e.target.src = getFallbackUrl(['indian', 'school', 'hero']); }}
+ className="relative z-10 w-full h-full object-contain"
+ />
+ {/* Gradients */}
+ <div className="absolute inset-0 z-20 bg-linear-to-r from-slate-950/90 via-slate-950/60 to-slate-950/20" />
+ <div className="absolute inset-0 z-20 bg-linear-to-t from-slate-950/90 via-transparent to-transparent opacity-70 lg:opacity-50" />
+ </motion.div>
+ </AnimatePresence>
+ </div>
 
-      {/* Hero Content & Form Grid Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+ {/* Side Floating Navigation Controls */}
+ <button
+ onClick={prevSlide}
+ className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-950/40 hover:bg-[#166534] text-white border border-white/20 hover:border-lime-400 backdrop-blur-md flex items-center justify-center transition-all duration-300 shadow-2xl cursor-pointer hover:scale-110 group"
+ aria-label="Previous Slide"
+ >
+ <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:-translate-x-0.5 transition-transform" />
+ </button>
 
-          {/* Left Column: Carousel Content */}
-          <div className="lg:col-span-7 space-y-6 pt-4">
+ <button
+ onClick={nextSlide}
+ className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-950/40 hover:bg-[#166534] text-white border border-white/20 hover:border-lime-400 backdrop-blur-md flex items-center justify-center transition-all duration-300 shadow-2xl cursor-pointer hover:scale-110 group"
+ aria-label="Next Slide"
+ >
+ <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:translate-x-0.5 transition-transform" />
+ </button>
 
-            {/* Badge */}
-            <motion.div
-              key={`badge-${slide.id}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F0FDF4]/90 border border-[#22C55E]/40 text-[#166534] text-xs sm:text-sm font-bold backdrop-blur-md shadow-xs"
-            >
-              <Award className="w-4 h-4 text-[#166534]" />
-              <span>{slide.badge}</span>
-            </motion.div>
+ {/* Content Container */}
+ <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-0">
+ <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 h-full items-center">
 
-            {/* Title */}
-            <motion.h1
-              key={`title-${slide.id}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="font-poppins text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-tight tracking-tight"
-            >
-              {slide.title}
-            </motion.h1>
+ {/* Left Column: Carousel Content */}
+ <div className="lg:col-span-7 space-y-6">
 
-            {/* Subtitle */}
-            <motion.p
-              key={`sub-${slide.id}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="font-inter text-slate-200 text-base sm:text-lg sm:leading-relaxed max-w-xl"
-            >
-              {slide.subtitle}
-            </motion.p>
+ {/* Badge */}
+ <motion.div
+ key={`badge-${slide.id}`}
+ initial={{ opacity: 0, y: 20 }}
+ animate={{ opacity: 1, y: 0 }}
+ transition={{ duration: 0.6, delay: 0.3 }}
+ className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F0FDF4]/90 border border-green-400/40 text-[#166534] text-xs sm:text-sm font-bold backdrop-blur-md shadow-sm"
+ >
+ <Award className="w-4 h-4 text-[#166534]" />
+ <span className="uppercase tracking-wider">{slide.badge}</span>
+ </motion.div>
 
-            {/* Call to Actions & Slide Controls */}
-            <motion.div
-              key={`cta-${slide.id}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex flex-wrap items-center gap-4 pt-2"
-            >
-              <Button to={slide.ctaPrimaryLink} variant="primary" size="md" icon={ArrowRight}>
-                {slide.ctaPrimary}
-              </Button>
-              <Button to={slide.ctaSecondaryLink} variant="white" size="md">
-                {slide.ctaSecondary}
-              </Button>
+ {/* Title */}
+ <motion.h1
+ key={`title-${slide.id}`}
+ initial={{ opacity: 0, y: 20 }}
+ animate={{ opacity: 1, y: 0 }}
+ transition={{ duration: 0.6, delay: 0.4 }}
+ className="font-poppins text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-tight tracking-tight drop-shadow-lg"
+ >
+ {slide.title}
+ </motion.h1>
 
-              {/* Navigation Controls */}
-              <div className="flex items-center gap-2 ml-auto sm:ml-4">
-                <button
-                  onClick={prevSlide}
-                  className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all border border-white/20 cursor-pointer"
-                  aria-label="Previous Slide"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-all border border-white/20 cursor-pointer"
-                  aria-label="Next Slide"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-            </motion.div>
+ {/* Subtitle */}
+ <motion.p
+ key={`sub-${slide.id}`}
+ initial={{ opacity: 0, y: 20 }}
+ animate={{ opacity: 1, y: 0 }}
+ transition={{ duration: 0.6, delay: 0.5 }}
+ className="font-inter text-slate-200 text-base sm:text-lg lg:text-xl sm:leading-relaxed max-w-xl mb-10 drop-shadow-md"
+ >
+ {slide.subtitle}
+ </motion.p>
 
-            {/* Carousel Indicator Dots */}
-            <div className="flex items-center gap-2 pt-2">
-              {HERO_SLIDES.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${currentSlide === index ? 'w-8 bg-[#22C55E]' : 'w-2 bg-white/40 hover:bg-white/60'
-                    }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
+ {/* Call to Actions & Slide Controls */}
+ <motion.div
+ key={`cta-${slide.id}`}
+ initial={{ opacity: 0, y: 20 }}
+ animate={{ opacity: 1, y: 0 }}
+ transition={{ duration: 0.6, delay: 0.6 }}
+ className="flex flex-wrap items-center gap-5 pt-2"
+ >
+ <Button to={slide.ctaPrimaryLink} variant="primary" size="lg" icon={ArrowRight}>
+ {slide.ctaPrimary}
+ </Button>
+ <Button to={slide.ctaSecondaryLink} variant="white" size="lg">
+ {slide.ctaSecondary}
+ </Button>
+ </motion.div>
 
-          </div>
+ {/* Carousel Indicator Dots */}
+ <div className="flex items-center gap-2.5 pt-8">
+ {HERO_SLIDES.map((_, index) => (
+ <button
+ key={index}
+ onClick={() => setCurrentSlide(index)}
+ className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer ${currentSlide === index ? 'w-10 bg-lime-400 shadow-[0_0_10px_rgba(163,230,53,0.5)]' : 'w-2.5 bg-white/40 hover:bg-white/70'
+ }`}
+ aria-label={`Go to slide ${index + 1}`}
+ />
+ ))}
+ </div>
 
-          {/* Right Column: Quick Admission Enquiry Form Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-5"
-          >
-            <div className="bg-white/95 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-white/50 shadow-2xl text-slate-900 relative">
+ </div>
 
-              {/* Form Header */}
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
-                <div>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#166534] bg-[#F0FDF4] px-3 py-1 rounded-full border border-green-200">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Admissions Open 2026-27</span>
-                  </span>
-                  <h3 className="font-poppins text-xl font-extrabold text-[#111827] mt-2">
-                    Quick Admission Enquiry
-                  </h3>
-                </div>
-              </div>
+ {/* Right Column: Quick Admission Enquiry Form Card */}
+ <motion.div
+ initial={{ opacity: 0, x: 30 }}
+ animate={{ opacity: 1, x: 0 }}
+ transition={{ duration: 0.8, delay: 0.4 }}
+ className="lg:col-span-5"
+ >
+ <div className="bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-white/40 shadow-2xl text-slate-900 relative group overflow-hidden">
+ <div className="absolute top-0 right-0 w-32 h-32 bg-lime-400/10 rounded-full blur-2xl pointer-events-none group-hover:bg-lime-400/20 transition-colors duration-500" />
+ 
+ {/* Form Header */}
+ <div className="flex items-center justify-between pb-5 mb-5 border-b border-slate-100">
+ <div>
+ <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#166534] bg-[#F0FDF4] px-3.5 py-1.5 rounded-full border border-green-200">
+ <Sparkles className="w-3.5 h-3.5" />
+ <span className="uppercase tracking-wider">Admissions Open 2026-27</span>
+ </span>
+ <h3 className="font-poppins text-2xl font-extrabold text-slate-900 mt-3">
+ Quick Admission Enquiry
+ </h3>
+ </div>
+ </div>
 
-              {isSubmitted ? (
-                <div className="py-8 text-center space-y-3">
-                  <div className="w-12 h-12 bg-green-100 text-[#166534] rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-8 h-8" />
-                  </div>
-                  <h4 className="font-poppins text-lg font-bold text-[#111827]">Enquiry Submitted!</h4>
-                  <p className="font-inter text-xs text-[#4B5563]">
-                    Thank you, <span className="font-bold text-[#111827]">{formData.parentName}</span>. Our admissions team will call you shortly at <span className="font-bold text-[#166534]">{formData.phone}</span>.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Parent Name */}
-                  <div>
-                    <label className="block text-xs font-bold text-[#111827] mb-1.5">
-                      Parent / Guardian Name *
-                    </label>
-                    <div className="relative">
-                      <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="text"
-                        required
-                        placeholder="Enter your full name"
-                        value={formData.parentName}
-                        onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
-                        className="w-full pl-10 pr-4 py-2.5 .bg-slate-50 border border-slate-200 rounded-xl text-sm text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#166534] focus:bg-white transition-all"
-                      />
-                    </div>
-                  </div>
+ <AnimatePresence mode="wait">
+ {isSubmitted ? (
+ <motion.div 
+ key="success"
+ initial={{ opacity: 0, scale: 0.95 }}
+ animate={{ opacity: 1, scale: 1 }}
+ exit={{ opacity: 0, scale: 0.95 }}
+ className="py-12 text-center space-y-4"
+ >
+ <div className="w-16 h-16 bg-[#F0FDF4] text-[#166534] rounded-full flex items-center justify-center mx-auto shadow-inner border border-green-100">
+ <CheckCircle2 className="w-8 h-8" />
+ </div>
+ <h4 className="font-poppins text-xl font-bold text-slate-900">Enquiry Submitted!</h4>
+ <p className="font-inter text-sm text-slate-600 leading-relaxed">
+ Thank you, <span className="font-bold text-slate-900">{formData.parentName}</span>. Our admissions team will call you shortly at <span className="font-bold text-[#166534]">{formData.phone}</span>.
+ </p>
+ </motion.div>
+ ) : (
+ <motion.form 
+ key="form"
+ initial={{ opacity: 0 }}
+ animate={{ opacity: 1 }}
+ exit={{ opacity: 0 }}
+ onSubmit={handleSubmit} 
+ className="space-y-5"
+ >
+ {/* Parent Name */}
+ <div>
+ <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+ Parent / Guardian Name *
+ </label>
+ <div className="relative">
+ <User className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+ <input
+ type="text"
+ required
+ placeholder="Enter your full name"
+ value={formData.parentName}
+ onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
+ className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] transition-all shadow-sm"
+ />
+ </div>
+ </div>
 
-                  {/* Phone Number */}
-                  <div>
-                    <label className="block text-xs font-bold text-[#111827] mb-1.5">
-                      Phone Number *
-                    </label>
-                    <div className="relative">
-                      <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full pl-10 pr-4 py-2.5 .bg-slate-50 border border-slate-200 rounded-xl text-sm text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#166534] .focus:bg-white transition-all"
-                      />
-                    </div>
-                  </div>
+ {/* Phone Number */}
+ <div>
+ <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+ Phone Number *
+ </label>
+ <div className="relative">
+ <Phone className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+ <input
+ type="tel"
+ required
+ placeholder="+91 98765 43210"
+ value={formData.phone}
+ onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+ className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] transition-all shadow-sm"
+ />
+ </div>
+ </div>
 
-                  {/* Grade Selection */}
-                  <div>
-                    <label className="block text-xs font-bold text-[#111827] mb-1.5">
-                      Applying for Grade *
-                    </label>
-                    <div className="relative">
-                      <BookOpen className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                      <select
-                        value={formData.grade}
-                        onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
-                        className="w-full pl-10 pr-4 py-2.5 .bg-slate-50 border border-slate-200 rounded-xl text-sm text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#166534] focus:bg-white transition-all appearance-none cursor-pointer"
-                      >
-                        <option value="Nursery">Nursery / Pre-KG</option>
-                        <option value="KG">LKG / UKG</option>
-                        <option value="Primary">Primary (Grades 1 to 5)</option>
-                        <option value="Secondary">Secondary (Grades 6 to 10)</option>
-                        <option value="Senior Secondary">Senior Secondary (Grades 11 & 12)</option>
-                      </select>
-                    </div>
-                  </div>
+ {/* Grade Selection */}
+ <div>
+ <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+ Applying for Grade *
+ </label>
+ <div className="relative">
+ <BookOpen className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+ <select
+ value={formData.grade}
+ onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
+ className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] transition-all shadow-sm appearance-none cursor-pointer"
+ >
+ <option value="Nursery">Nursery / Pre-KG</option>
+ <option value="KG">LKG / UKG</option>
+ <option value="Primary">Primary (Grades 1 to 5)</option>
+ <option value="Secondary">Secondary (Grades 6 to 10)</option>
+ <option value="Senior Secondary">Senior Secondary (Grades 11 & 12)</option>
+ </select>
+ </div>
+ </div>
 
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    className="w-full bg-[#166534] hover:bg-[#14532d] text-white font-bold py-3 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
-                  >
-                    <Send className="w-4 h-4 text-lime-300" />
-                    <span>Submit Admission Enquiry</span>
-                  </button>
+ {/* Submit Button */}
+ <button
+ type="submit"
+ className="w-full bg-[#166534] hover:bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer mt-4 group"
+ >
+ <Send className="w-4 h-4 text-lime-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+ <span>Submit Admission Enquiry</span>
+ </button>
 
-                  <p className="text-[11px] text-center text-slate-500 pt-1">
-                    🔒 Your information is confidential & protected.
-                  </p>
-                </form>
-              )}
+ <p className="text-[11px] text-center text-slate-500 pt-2 font-medium">
+ 🔒 Your information is confidential & protected.
+ </p>
+ </motion.form>
+ )}
+ </AnimatePresence>
 
-            </div>
-          </motion.div>
+ </div>
+ </motion.div>
 
-        </div>
-      </div>
+ </div>
+ </div>
 
-    </section>
-  );
+ </section>
+ );
 };
 
 export default Hero;

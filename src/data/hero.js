@@ -1,3 +1,5 @@
+import { IMAGES } from '../utils/images';
+
 export const HERO_SLIDES = [
   {
     id: 1,
@@ -7,7 +9,7 @@ export const HERO_SLIDES = [
     ctaPrimaryLink: "/admission",
     ctaSecondary: "Virtual Tour",
     ctaSecondaryLink: "/facilities",
-    bgImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1920&auto=format&fit=crop",
+    bgImage: IMAGES.banners.home,
     badge: "Admissions Open 2026-27"
   },
   {
@@ -18,7 +20,7 @@ export const HERO_SLIDES = [
     ctaPrimaryLink: "/facilities",
     ctaSecondary: "Academic Programs",
     ctaSecondaryLink: "/academics",
-    bgImage: "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1920&auto=format&fit=crop",
+    bgImage: IMAGES.banners.facilities,
     badge: "World-Class Infrastructure"
   },
   {
@@ -29,7 +31,7 @@ export const HERO_SLIDES = [
     ctaPrimaryLink: "/about",
     ctaSecondary: "View Gallery",
     ctaSecondaryLink: "/gallery",
-    bgImage: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1920&auto=format&fit=crop",
+    bgImage: IMAGES.banners.vision,
     badge: "Ranked #1 Regional School"
   }
 ];

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, ChevronRight, Building2, UserCheck, Info } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight, Building2, UserCheck, Info, Eye, Briefcase, Baby, BookOpen, Library, GraduationCap } from 'lucide-react';
 import { NAV_LINKS, ROUTES } from '../../utils/routes';
 import { SCHOOL_INFO } from '../../utils/constants';
 import { useApp } from '../../context/AppContext';
@@ -15,16 +15,49 @@ const ABOUT_DROPDOWN_ITEMS = [
     icon: Info
   },
   {
-    name: 'Facilities',
-    desc: 'Campus infrastructure & amenities',
-    path: ROUTES.FACILITIES,
-    icon: Building2
+    name: 'Vision & Mission',
+    desc: 'Our guiding principles & future goals',
+    path: ROUTES.VISION_MISSION,
+    icon: Eye
   },
   {
     name: 'Faculties',
     desc: 'Teaching mentors & department heads',
     path: ROUTES.FACULTY,
     icon: UserCheck
+  },
+  {
+    name: 'Careers',
+    desc: 'Join our team of educators',
+    path: ROUTES.CAREER,
+    icon: Briefcase
+  }
+];
+
+const ACADEMICS_DROPDOWN_ITEMS = [
+  {
+    name: 'Kindergarten',
+    desc: 'Pre-Primary Wing (Nursery - UKG)',
+    path: ROUTES.ACADEMICS + '#pre-primary',
+    icon: Baby
+  },
+  {
+    name: 'Primary School',
+    desc: 'Primary Wing (Grades 1 - 5)',
+    path: ROUTES.ACADEMICS + '#primary',
+    icon: BookOpen
+  },
+  {
+    name: 'Middle & High School',
+    desc: 'Secondary Wing (Grades 6 - 10)',
+    path: ROUTES.ACADEMICS + '#secondary',
+    icon: Library
+  },
+  {
+    name: 'Senior Secondary',
+    desc: 'Senior Secondary (Grades 11 & 12)',
+    path: ROUTES.ACADEMICS + '#senior-secondary',
+    icon: GraduationCap
   }
 ];
 
@@ -32,8 +65,11 @@ export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
   const [isMobileAboutExpanded, setIsMobileAboutExpanded] = useState(false);
+  const [isAcademicsDropdownOpen, setIsAcademicsDropdownOpen] = useState(false);
+  const [isMobileAcademicsExpanded, setIsMobileAcademicsExpanded] = useState(false);
   
-  const dropdownRef = useRef(null);
+  const aboutDropdownRef = useRef(null);
+  const academicsDropdownRef = useRef(null);
   const location = useLocation();
   const { isMobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useApp();
 
@@ -48,20 +84,25 @@ export const Navbar = () => {
   // Close dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
         setIsAboutDropdownOpen(false);
+      }
+      if (academicsDropdownRef.current && !academicsDropdownRef.current.contains(event.target)) {
+        setIsAcademicsDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Close menus on route change
+  // Close menus on route change or hash change
   useEffect(() => {
     closeMobileMenu();
     setIsAboutDropdownOpen(false);
     setIsMobileAboutExpanded(false);
-  }, [location.pathname]);
+    setIsAcademicsDropdownOpen(false);
+    setIsMobileAcademicsExpanded(false);
+  }, [location.pathname, location.hash]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
@@ -96,25 +137,39 @@ export const Navbar = () => {
           <div className="hidden lg:flex items-center gap-2 xl:gap-3">
             {NAV_LINKS.map((link) => {
               const isAboutLink = link.path === ROUTES.ABOUT;
-              const isDropdownPageActive = isAboutLink && (
+              const isAcademicsLink = link.path === ROUTES.ACADEMICS;
+              
+              const isAboutDropdownPageActive = isAboutLink && (
                 location.pathname === ROUTES.ABOUT ||
-                location.pathname === ROUTES.FACILITIES || 
-                location.pathname === ROUTES.FACULTY
+                location.pathname === ROUTES.FACULTY ||
+                location.pathname === ROUTES.VISION_MISSION ||
+                location.pathname === ROUTES.CAREER
               );
-              const isActive = location.pathname === link.path || isDropdownPageActive;
+              
+              const isAcademicsDropdownPageActive = isAcademicsLink && (
+                location.pathname === ROUTES.ACADEMICS
+              );
+              
+              const isActive = location.pathname === link.path || isAboutDropdownPageActive || isAcademicsDropdownPageActive;
 
-              if (isAboutLink) {
+              if (isAboutLink || isAcademicsLink) {
+                const isAbout = isAboutLink;
+                const dropdownRef = isAbout ? aboutDropdownRef : academicsDropdownRef;
+                const isOpen = isAbout ? isAboutDropdownOpen : isAcademicsDropdownOpen;
+                const setIsOpen = isAbout ? setIsAboutDropdownOpen : setIsAcademicsDropdownOpen;
+                const items = isAbout ? ABOUT_DROPDOWN_ITEMS : ACADEMICS_DROPDOWN_ITEMS;
+
                 return (
                   <div
                     key={link.path}
                     ref={dropdownRef}
                     className="relative"
-                    onMouseEnter={() => setIsAboutDropdownOpen(true)}
-                    onMouseLeave={() => setIsAboutDropdownOpen(false)}
+                    onMouseEnter={() => setIsOpen(true)}
+                    onMouseLeave={() => setIsOpen(false)}
                   >
                     <button
                       type="button"
-                      onClick={() => setIsAboutDropdownOpen(!isAboutDropdownOpen)}
+                       onClick={() => setIsOpen(!isOpen)}
                       className={`text-xs sm:text-sm font-bold transition-all px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 cursor-pointer ${
                         isActive
                           ? 'bg-[#166534] text-white shadow-xs scale-105'
@@ -122,21 +177,23 @@ export const Navbar = () => {
                       }`}
                     >
                       <span>{link.name}</span>
-                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
                     </button>
 
-                    {/* About Us Usable Dropdown Menu with Hover Bridge */}
-                    {isAboutDropdownOpen && (
+                    {/* Dropdown Menu with Hover Bridge */}
+                    {isOpen && (
                       <div className="absolute top-full left-0 pt-2 w-64 z-50 animate-fadeIn">
                         <div className="bg-white rounded-2xl shadow-xl border border-slate-200/90 p-2 space-y-1">
-                          {ABOUT_DROPDOWN_ITEMS.map((item) => {
+                          {items.map((item) => {
                             const IconComp = item.icon;
-                            const isItemActive = location.pathname === item.path;
+                            // Checking exact match for hash URLs as well
+                            const isItemActive = (location.pathname + location.hash) === item.path || (location.pathname === item.path && !location.hash && !item.path.includes('#'));
+                            
                             return (
                               <Link
                                 key={item.name}
                                 to={item.path}
-                                onClick={() => setIsAboutDropdownOpen(false)}
+                                onClick={() => setIsOpen(false)}
                                 className={`flex items-center gap-3 p-2.5 rounded-xl transition-colors group/item ${
                                   isItemActive ? 'bg-[#F0FDF4] text-[#166534]' : 'hover:bg-[#F0FDF4]'
                                 }`}
@@ -208,14 +265,20 @@ export const Navbar = () => {
           <div className="flex flex-col gap-2">
             {NAV_LINKS.map((link) => {
               const isAboutLink = link.path === ROUTES.ABOUT;
+              const isAcademicsLink = link.path === ROUTES.ACADEMICS;
               const isActive = location.pathname === link.path;
 
-              if (isAboutLink) {
+              if (isAboutLink || isAcademicsLink) {
+                const isAbout = isAboutLink;
+                const isExpanded = isAbout ? isMobileAboutExpanded : isMobileAcademicsExpanded;
+                const setIsExpanded = isAbout ? setIsMobileAboutExpanded : setIsMobileAcademicsExpanded;
+                const items = isAbout ? ABOUT_DROPDOWN_ITEMS : ACADEMICS_DROPDOWN_ITEMS;
+
                 return (
                   <div key={link.path} className="flex flex-col">
                     <button
                       type="button"
-                      onClick={() => setIsMobileAboutExpanded(!isMobileAboutExpanded)}
+                      onClick={() => setIsExpanded(!isExpanded)}
                       className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-between w-full ${
                         isActive
                           ? 'bg-[#166534] text-white shadow-xs'
@@ -223,13 +286,13 @@ export const Navbar = () => {
                       }`}
                     >
                       <span>{link.name}</span>
-                      <ChevronDown className={`w-4 h-4 transition-transform ${isMobileAboutExpanded ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                     </button>
 
                     {/* Mobile Submenu Accordion */}
-                    {isMobileAboutExpanded && (
+                    {isExpanded && (
                       <div className="pl-4 py-2 space-y-1 bg-slate-50 rounded-xl my-1 border border-slate-200/60">
-                        {ABOUT_DROPDOWN_ITEMS.map((item) => (
+                        {items.map((item) => (
                           <Link
                             key={item.name}
                             to={item.path}

@@ -1,3 +1,5 @@
+import { IMAGES } from '../utils/images';
+
 export const FACULTY_DEPARTMENTS = [
   { id: 'all', name: 'All Faculty' },
   { id: 'leadership', name: 'Leadership & Administration' },
@@ -9,86 +11,134 @@ export const FACULTY_DEPARTMENTS = [
 export const FACULTY_MEMBERS = [
   {
     id: 'principal',
-    name: 'Dr. Evelyn Montgomery',
-    designation: 'Principal & Director of Academics',
+    name: 'Dr. Sunita Sharma',
+    designation: 'Principal',
     department: 'leadership',
-    qualification: 'Ph.D. in Educational Leadership (Oxford University), M.Sc. Physics',
-    experience: '22+ Years in International Education',
+    qualification: 'Ph.D. in Educational Leadership (Delhi University), M.Sc. Physics',
+    experience: '22+ Years in CBSE Education',
     bio: 'Pioneering holistic STEM integration and values-based character building across 2 decades of academic leadership.',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop',
+    image: IMAGES.faculty.principal,
     awards: 'National Best Principal Award 2024',
-    subjects: ['Advanced Physics', 'Educational Policy']
+    subjects: ['Educational Policy']
   },
   {
     id: 'vice-principal',
-    name: 'Prof. Rajesh Sharma',
-    designation: 'Vice Principal & Head of Science Wing',
+    name: 'Prof. Rajeshwar Verma',
+    designation: 'Vice Principal',
     department: 'leadership',
     qualification: 'M.Sc. Organic Chemistry (IIT Delhi), B.Ed.',
     experience: '18+ Years',
-    bio: 'Dedicated to fostering analytical curiosity and competitive exam success in Olympiads and NEET/JEE.',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop',
-    awards: 'Excellence in Chemistry Teaching',
-    subjects: ['Organic Chemistry', 'Research Methodology']
+    bio: 'Dedicated to fostering analytical curiosity and academic excellence across all disciplines.',
+    image: IMAGES.faculty.vicePrincipal,
+    awards: 'Excellence in Academic Leadership',
+    subjects: ['Research Methodology']
   },
   {
-    id: 'head-math',
-    name: 'Dr. Sarah Jenkins',
-    designation: 'Head of Mathematics Department',
+    id: 'teacher-math',
+    name: 'Dr. Shalini Raman',
+    designation: 'Mathematics Teacher',
     department: 'stem',
-    qualification: 'Ph.D. Applied Mathematics (Cambridge), M.Ed.',
+    qualification: 'Ph.D. Applied Mathematics (IISc Bangalore), M.Ed.',
     experience: '14+ Years',
-    bio: 'Making abstract mathematical concepts intuitive and practical through 3D visual geometry tools.',
-    image: 'https://images.unsplash.com/photo-1580894732413-801139589d8d?q=80&w=800&auto=format&fit=crop',
+    bio: 'Making abstract mathematical concepts intuitive and practical through visual geometry tools.',
+    image: IMAGES.faculty.math,
     awards: 'Global Math Mentor 2023',
-    subjects: ['Calculus', 'Linear Algebra', 'Statistics']
+    subjects: ['Mathematics', 'Calculus']
   },
   {
-    id: 'head-robotics',
+    id: 'teacher-physics',
     name: 'Vikramaditya Roy',
-    designation: 'Lead Robotics & AI Mentor',
+    designation: 'Physics Teacher',
     department: 'stem',
-    qualification: 'M.Tech Robotics & Automation (BITS Pilani)',
+    qualification: 'M.Sc Physics (BITS Pilani)',
     experience: '10+ Years',
-    bio: 'Guiding student teams to world championships in FIRST LEGO League and AI innovation competitions.',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop',
+    bio: 'Guiding students to deeply understand the fundamental laws of nature and their applications.',
+    image: IMAGES.faculty.physics,
     awards: 'Best STEM Innovation Instructor',
-    subjects: ['Robotics', 'Python Programming', 'Machine Learning']
+    subjects: ['Physics']
   },
   {
-    id: 'head-english',
+    id: 'teacher-chemistry',
+    name: 'Dr. Neha Kapoor',
+    designation: 'Chemistry Teacher',
+    department: 'stem',
+    qualification: 'Ph.D. Organic Chemistry',
+    experience: '12+ Years',
+    bio: 'Fostering a love for chemical sciences through hands-on laboratory experiments and analysis.',
+    image: IMAGES.faculty.chemistry,
+    awards: 'Excellence in Chemistry Teaching',
+    subjects: ['Chemistry']
+  },
+  {
+    id: 'teacher-biology',
+    name: 'Anjali Desai',
+    designation: 'Biology Teacher',
+    department: 'stem',
+    qualification: 'M.Sc. Life Sciences',
+    experience: '9+ Years',
+    bio: 'Inspiring future doctors and biologists through comprehensive study of living systems.',
+    image: IMAGES.faculty.biology,
+    awards: 'Outstanding Biology Educator',
+    subjects: ['Biology', 'Environmental Science']
+  },
+  {
+    id: 'teacher-english',
     name: 'Ananya Deshmukh',
-    designation: 'Head of English & Literature',
+    designation: 'English Teacher',
     department: 'humanities',
     qualification: 'M.A. English Literature (Delhi University), CELTA Certified',
     experience: '15+ Years',
-    bio: 'Cultivating eloquence, critical literary thought, and award-winning public speaking debaters.',
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop',
+    bio: 'Cultivating eloquence, critical literary thought, and award-winning public speaking skills.',
+    image: IMAGES.faculty.english,
     awards: 'Distinguished Educator in Humanities',
-    subjects: ['World Literature', 'Creative Writing', 'Public Speaking']
+    subjects: ['World Literature', 'English']
   },
   {
-    id: 'head-sports',
-    name: 'Captain Marcus Vance',
-    designation: 'Director of Athletics & Sports',
+    id: 'teacher-computer',
+    name: 'Arjun Nair',
+    designation: 'Computer Teacher',
+    department: 'stem',
+    qualification: 'M.Tech Computer Science',
+    experience: '8+ Years',
+    bio: 'Equipping students with modern programming, AI, and robotics skills for the digital age.',
+    image: IMAGES.faculty.computer,
+    awards: 'Tech Innovator Award',
+    subjects: ['Computer Science', 'Coding']
+  },
+  {
+    id: 'teacher-sports',
+    name: 'Capt. Vikram Singh',
+    designation: 'Sports Teacher',
     department: 'sports',
     qualification: 'M.P.Ed, Certified NIS Athletic Coach',
     experience: '16+ Years',
     bio: 'Instilling discipline, sportsmanship, and national-level athletic performance in student athletes.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop',
+    image: IMAGES.faculty.sports,
     awards: 'National Coach of Distinction',
-    subjects: ['Athletics', 'Football Coaching', 'Physical Fitness']
+    subjects: ['Physical Education', 'Athletics']
   },
   {
-    id: 'head-[#arts]',
+    id: 'teacher-art',
     name: 'Meera Nambiar',
-    designation: 'Head of Fine Arts & Performing Arts',
+    designation: 'Art Teacher',
     department: 'sports',
     qualification: 'M.F.A. Visual Arts (Shantiniketan)',
     experience: '12+ Years',
-    bio: 'Inspiring visual expression, classical music performance, and annual theatrical blockbusters.',
-    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=800&auto=format&fit=crop',
+    bio: 'Inspiring visual expression, creativity, and aesthetic appreciation through various mediums.',
+    image: IMAGES.faculty.art,
     awards: 'State Cultural Mentor Award',
-    subjects: ['Visual Arts', 'Sculpture', 'Classical Music']
+    subjects: ['Visual Arts', 'Painting']
+  },
+  {
+    id: 'teacher-music',
+    name: 'Ravi Shankar',
+    designation: 'Music Teacher',
+    department: 'sports',
+    qualification: 'M.A. Music (Gandharva Mahavidyalaya)',
+    experience: '11+ Years',
+    bio: 'Nurturing musical talent in classical and contemporary styles through dedicated practice.',
+    image: IMAGES.faculty.music,
+    awards: 'Best Music Director',
+    subjects: ['Vocal Music', 'Instrumental']
   }
 ];

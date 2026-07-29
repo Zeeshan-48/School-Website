@@ -1,38 +1,87 @@
+import { IMAGES } from '../utils/images';
+
 export const ACADEMIC_PROGRAMS = [
   {
     id: "pre-primary",
     level: "Kindergarten",
     title: "Pre-Primary Wing (Nursery - UKG)",
     age: "Ages 3 - 5 Years",
-    description: "Play-based inquiry learning developing motor skills, early literacy, numerical curiosity, and emotional intelligence.",
-    highlights: ["Montessori Activities", "Phonics & Storytelling", "Sensory Play Area", "Splash Pool & Mini Garden"],
-    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop"
+    description: "Play-based inquiry learning developing motor skills, early literacy, numerical curiosity, and emotional intelligence in a safe environment.",
+    subjects: ["English Phonics & Stories", "Number Magic & Math Readiness", "Environmental Awareness", "Art, Music & Creative Movement"],
+    highlights: ["Montessori Activity Corners", "Phonics & Storytelling", "Sensory Play Area", "Splash Pool & Mini Garden"],
+    image: IMAGES.news.cultural // Representing pre-primary play
   },
   {
     id: "primary",
     level: "Primary School",
     title: "Primary Wing (Grades 1 - 5)",
     age: "Ages 6 - 10 Years",
-    description: "Building strong foundational concepts in Science, Mathematics, Languages, Humanities, and Digital Skills.",
-    highlights: ["Interactive STEM Modules", "Coding & Robotics Intro", "Language Immersion", "Visual & Performing Arts"],
-    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800&auto=format&fit=crop"
+    description: "Building strong foundational concepts in Science, Mathematics, Languages, Environmental Studies, and introductory STEM skills.",
+    subjects: ["English Literature & Grammar", "Mathematics & Mental Math", "Science & Nature Exploration", "Second Language (Hindi/Sanskrit/French)", "Computer Fundamentals"],
+    highlights: ["Interactive STEM Tinkering", "Coding & Digital Literacy", "Language Immersion Lab", "Visual & Performing Arts"],
+    image: IMAGES.banners.academics
   },
   {
     id: "secondary",
     level: "Middle & High School",
     title: "Secondary Wing (Grades 6 - 10)",
     age: "Ages 11 - 15 Years",
-    description: "Rigorously preparing students for national and international board exams with inquiry-based learning and lab work.",
-    highlights: ["Advanced Science Labs", "Olympiad Coaching", "Model United Nations", "Leadership Clubs"],
-    image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=800&auto=format&fit=crop"
+    description: "Rigorously preparing students for CBSE Board exams through inquiry-based learning, practical laboratory experiments, and competitive coaching.",
+    subjects: ["Physics, Chemistry & Biology Labs", "Advanced Mathematics", "Social Sciences & History", "English & Foreign Languages", "Artificial Intelligence & IT"],
+    highlights: ["Physics/Chem/Bio Labs", "National Olympiad Training", "Model United Nations (MUN)", "Leadership & Debate Clubs"],
+    image: IMAGES.facilities.scienceLab
   },
   {
     id: "senior-secondary",
     level: "Senior Secondary",
     title: "Senior Secondary (Grades 11 & 12)",
     age: "Ages 16 - 18 Years",
-    description: "Specialized streams in Science, Commerce, and Humanities with integrated competitive exam coaching (SAT/JEE/NEET).",
-    highlights: ["Stream Specializations", "University Counseling", "Research Projects", "Corporate Internships"],
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop"
+    description: "Specialized academic streams in Science, Commerce, and Humanities with integrated competitive exam preparation (JEE, NEET, CUET, SAT).",
+    subjects: ["Science Stream (PCM/PCB/PCMB)", "Commerce Stream (Accounts, Econ, B.St)", "Humanities (Psychology, Pol Sci, Soc)", "Applied Math & Computer Science"],
+    highlights: ["Integrated Competitive Prep", "Career Counseling Desk", "Research Projects & Seminars", "University Application Mentorship"],
+    image: IMAGES.news.academic
+  }
+];
+
+export const SENIOR_STREAMS = [
+  {
+    id: "science",
+    title: "Science Stream (Medical / Non-Medical)",
+    desc: "Designed for aspiring engineers, doctors, research scientists, and technology innovators.",
+    coreSubjects: ["Physics", "Chemistry", "Mathematics / Biology", "English Core"],
+    electives: ["Computer Science (Python)", "Physical Education", "Informatics Practices", "Psychology"]
+  },
+  {
+    id: "commerce",
+    title: "Commerce Stream",
+    desc: "Targeted at future entrepreneurs, chartered accountants, finance experts, and business leaders.",
+    coreSubjects: ["Accountancy", "Business Studies", "Economics", "English Core"],
+    electives: ["Applied Mathematics", "Informatics Practices", "Entrepreneurship", "Physical Education"]
+  },
+  {
+    id: "humanities",
+    title: "Humanities / Arts Stream",
+    desc: "Ideal for future civil servants, psychologists, journalists, international relations specialists, and legal professionals.",
+    coreSubjects: ["Political Science", "Psychology", "Sociology / History", "English Core"],
+    electives: ["Economics", "Fine Arts", "Physical Education", "Mass Media Studies"]
+  }
+];
+
+export const STEM_FEATURES = [
+  {
+    title: "Atal Robotics & IoT Lab",
+    desc: "Hands-on micro-controller coding, sensors, and autonomous robotics assembly."
+  },
+  {
+    title: "3D Printing & Design",
+    desc: "Computer-Aided Design (CAD) software modeling and 3D rapid prototyping."
+  },
+  {
+    title: "AI & Data Science Hub",
+    desc: "Python programming, machine learning fundamentals, and data visualization."
+  },
+  {
+    title: "Eco STEM Experiments",
+    desc: "Solar energy kits, hydroponics systems, and environmental science projects."
   }
 ];

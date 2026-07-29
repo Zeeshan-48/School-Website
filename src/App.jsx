@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Navbar } from './components/layout/Navbar';
+import { Breadcrumbs } from './components/common/Breadcrumbs';
 import { Footer } from './components/layout/Footer';
 import { Loader } from './components/layout/Loader';
 import { AppProvider } from './context/AppContext';
@@ -17,6 +18,7 @@ const Faculty = lazy(() => import('./pages/Faculty'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const Career = lazy(() => import('./pages/Career'));
 const Contact = lazy(() => import('./pages/Contact'));
+const VisionMission = lazy(() => import('./pages/VisionMission'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Scroll reset component on route navigation
@@ -35,6 +37,7 @@ export function App() {
         <ScrollToTopOnNavigate />
         <div className="flex flex-col min-h-screen bg-slate-50 font-sans antialiased text-slate-900 selection:bg-green-600 selection:text-white">
           <Navbar />
+          <Breadcrumbs />
           <main className="grow">
             <Suspense fallback={<Loader />}>
               <Routes>
@@ -47,6 +50,7 @@ export function App() {
                 <Route path={ROUTES.GALLERY} element={<Gallery />} />
                 <Route path={ROUTES.CAREER} element={<Career />} />
                 <Route path={ROUTES.CONTACT} element={<Contact />} />
+                <Route path={ROUTES.VISION_MISSION} element={<VisionMission />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

@@ -14,10 +14,10 @@ export const Home = () => {
   return (
     <div className="min-h-screen bg-white">
       <Hero />
-      <WhyChooseUs />
       <AboutSchool />
       <AcademicPrograms />
       <FacilitiesPreview />
+      <WhyChooseUs />
       <GalleryPreview />
       <Statistics />
       <Testimonials />

@@ -6,7 +6,8 @@ export const SCHOOL_INFO = {
   altPhone: "+91 9631349633",
   email: "zeshan1234anwar@gmail.com",
   infoEmail: "zeshan1234anwar@gmail.com",
-  address: "125 Academic Excellence Boulevard, Knowledge City, NY 10001",
+  address: "STPI- Plot -8 Part, Namkum Industrial Area, Namkum Ranchi - 834010",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=STPI+Plot-8+Part+Namkum+Industrial+Area+Namkum+Ranchi+834010",
   socials: {
     facebook: "https://facebook.com",
     twitter: "https://twitter.com",
