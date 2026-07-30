@@ -79,7 +79,7 @@ export const GalleryPreview = () => {
  viewport={{ once: true, amount: 0.1 }}
  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
  >
- {GALLERY_ITEMS.slice(0, 6).map((item, index) => (
+ {GALLERY_ITEMS.slice(0, 3).map((item, index) => (
  <motion.div
  key={item.id}
  variants={fadeUp}
@@ -98,7 +98,7 @@ export const GalleryPreview = () => {
 
  {/* Category Badge */}
  <div className="absolute top-5 left-5">
- <span className="bg-emerald-950/90 text-lime-400 text-[10px] font-extrabold uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-sm border border-emerald-600/40 backdrop-blur-sm">
+ <span className="bg-black/60 text-white text-[10px] font-extrabold uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-sm border border-white/30 backdrop-blur-sm">
  {item.category}
  </span>
  </div>
@@ -109,11 +109,11 @@ export const GalleryPreview = () => {
  </div>
 
  {/* Title & Caption */}
- <div className="absolute bottom-5 left-5 right-5 text-white space-y-1.5 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
- <h3 className="font-poppins text-lg font-bold leading-snug group-hover:text-lime-400 transition-colors">
+ <div className="absolute bottom-5 left-5 right-5 text-white space-y-1.5">
+ <h3 className="font-poppins text-lg font-bold leading-snug text-white">
  {item.title}
  </h3>
- <p className="font-inter text-xs text-green-100/90 line-clamp-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+ <p className="font-inter text-xs text-white/90 line-clamp-1">
  {item.caption}
  </p>
  </div>

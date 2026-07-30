@@ -50,7 +50,13 @@ export const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-poppins text-white text-base font-bold tracking-wider uppercase">Quick Links</h4>
             <ul className="space-y-2.5 text-sm">
-              {NAV_LINKS.slice(0, 5).map((link) => (
+              {[
+                { name: 'Home', path: ROUTES.HOME },
+                { name: 'About', path: ROUTES.ABOUT },
+                { name: 'Facilities', path: ROUTES.FACILITIES },
+                { name: 'Admissions', path: ROUTES.ADMISSION },
+                { name: 'Sign In', path: ROUTES.SIGN_IN }
+              ].map((link) => (
                 <li key={link.path}>
                   <Link to={link.path} className="text-green-100/80 hover:text-white hover:translate-x-1 inline-flex items-center gap-1 transition-all">
                     <span>{link.name}</span>

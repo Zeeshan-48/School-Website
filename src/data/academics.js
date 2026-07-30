@@ -1,4 +1,8 @@
 import { IMAGES } from '../utils/images';
+import academicImg1 from '../assets/academic_img_1.png';
+import academicImg2 from '../assets/academic_img_2.png';
+import academicImg3 from '../assets/academic_img_3.png';
+import academicImg4 from '../assets/academic_img_4.png';
 
 export const ACADEMIC_PROGRAMS = [
   {
@@ -9,7 +13,7 @@ export const ACADEMIC_PROGRAMS = [
     description: "Play-based inquiry learning developing motor skills, early literacy, numerical curiosity, and emotional intelligence in a safe environment.",
     subjects: ["English Phonics & Stories", "Number Magic & Math Readiness", "Environmental Awareness", "Art, Music & Creative Movement"],
     highlights: ["Montessori Activity Corners", "Phonics & Storytelling", "Sensory Play Area", "Splash Pool & Mini Garden"],
-    image: IMAGES.news.cultural // Representing pre-primary play
+    image: academicImg1
   },
   {
     id: "primary",
@@ -19,7 +23,7 @@ export const ACADEMIC_PROGRAMS = [
     description: "Building strong foundational concepts in Science, Mathematics, Languages, Environmental Studies, and introductory STEM skills.",
     subjects: ["English Literature & Grammar", "Mathematics & Mental Math", "Science & Nature Exploration", "Second Language (Hindi/Sanskrit/French)", "Computer Fundamentals"],
     highlights: ["Interactive STEM Tinkering", "Coding & Digital Literacy", "Language Immersion Lab", "Visual & Performing Arts"],
-    image: IMAGES.banners.academics
+    image: academicImg2
   },
   {
     id: "secondary",
@@ -29,7 +33,7 @@ export const ACADEMIC_PROGRAMS = [
     description: "Rigorously preparing students for CBSE Board exams through inquiry-based learning, practical laboratory experiments, and competitive coaching.",
     subjects: ["Physics, Chemistry & Biology Labs", "Advanced Mathematics", "Social Sciences & History", "English & Foreign Languages", "Artificial Intelligence & IT"],
     highlights: ["Physics/Chem/Bio Labs", "National Olympiad Training", "Model United Nations (MUN)", "Leadership & Debate Clubs"],
-    image: IMAGES.facilities.scienceLab
+    image: academicImg3
   },
   {
     id: "senior-secondary",
@@ -39,7 +43,7 @@ export const ACADEMIC_PROGRAMS = [
     description: "Specialized academic streams in Science, Commerce, and Humanities with integrated competitive exam preparation (JEE, NEET, CUET, SAT).",
     subjects: ["Science Stream (PCM/PCB/PCMB)", "Commerce Stream (Accounts, Econ, B.St)", "Humanities (Psychology, Pol Sci, Soc)", "Applied Math & Computer Science"],
     highlights: ["Integrated Competitive Prep", "Career Counseling Desk", "Research Projects & Seminars", "University Application Mentorship"],
-    image: IMAGES.news.academic
+    image: academicImg4
   }
 ];
 

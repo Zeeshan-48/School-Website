@@ -19,6 +19,7 @@ const Gallery = lazy(() => import('./pages/Gallery'));
 const Career = lazy(() => import('./pages/Career'));
 const Contact = lazy(() => import('./pages/Contact'));
 const VisionMission = lazy(() => import('./pages/VisionMission'));
+const SignIn = lazy(() => import('./pages/SignIn'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Scroll reset component on route navigation
@@ -51,6 +52,7 @@ export function App() {
                 <Route path={ROUTES.CAREER} element={<Career />} />
                 <Route path={ROUTES.CONTACT} element={<Contact />} />
                 <Route path={ROUTES.VISION_MISSION} element={<VisionMission />} />
+                <Route path={ROUTES.SIGN_IN} element={<SignIn />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

@@ -235,8 +235,14 @@ export const Navbar = () => {
             })}
           </div>
 
-          {/* Right Action: Apply CTA */}
+          {/* Right Action: Apply CTA & Sign In */}
           <div className="hidden lg:flex items-center gap-3">
+            <Link
+              to={ROUTES.SIGN_IN}
+              className="text-xs font-bold text-slate-700 hover:text-[#166534] px-4 py-2.5 rounded-full border border-slate-200 hover:bg-[#F0FDF4] transition-all"
+            >
+              Sign In
+            </Link>
             <Link
               to={ROUTES.ADMISSION}
               className="bg-[#166534] hover:bg-[#14532d] text-white text-xs font-bold px-5 py-2.5 rounded-full shadow-xs hover:shadow-md transition-all"
@@ -327,6 +333,13 @@ export const Navbar = () => {
             })}
             
             <div className="pt-3 border-t border-slate-100 mt-2 flex flex-col gap-2">
+              <Link
+                to={ROUTES.SIGN_IN}
+                onClick={closeMobileMenu}
+                className="w-full text-center border border-slate-200 text-slate-800 text-sm font-bold py-2.5 rounded-xl hover:bg-slate-50"
+              >
+                Sign In to Portal
+              </Link>
               <Link
                 to={ROUTES.ADMISSION}
                 onClick={closeMobileMenu}

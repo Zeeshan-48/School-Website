@@ -1,4 +1,7 @@
 import { IMAGES } from '../utils/images';
+import homeCarousel1 from '../assets/home_carousel_1.jpg';
+import homeCarousel2 from '../assets/home_carousel_2.png';
+import homeCarousel3 from '../assets/home_carousel_3.png';
 
 export const HERO_SLIDES = [
   {
@@ -9,7 +12,7 @@ export const HERO_SLIDES = [
     ctaPrimaryLink: "/admission",
     ctaSecondary: "Virtual Tour",
     ctaSecondaryLink: "/facilities",
-    bgImage: IMAGES.banners.home,
+    bgImage: homeCarousel1,
     badge: "Admissions Open 2026-27"
   },
   {
@@ -20,7 +23,7 @@ export const HERO_SLIDES = [
     ctaPrimaryLink: "/facilities",
     ctaSecondary: "Academic Programs",
     ctaSecondaryLink: "/academics",
-    bgImage: IMAGES.banners.facilities,
+    bgImage: homeCarousel2,
     badge: "World-Class Infrastructure"
   },
   {
@@ -31,7 +34,7 @@ export const HERO_SLIDES = [
     ctaPrimaryLink: "/about",
     ctaSecondary: "View Gallery",
     ctaSecondaryLink: "/gallery",
-    bgImage: IMAGES.banners.vision,
+    bgImage: homeCarousel3,
     badge: "Ranked #1 Regional School"
   }
 ];

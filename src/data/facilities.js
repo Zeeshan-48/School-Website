@@ -1,4 +1,8 @@
 import { IMAGES } from '../utils/images';
+import campusImg1 from '../assets/campus_img_1.png';
+import campusImg2 from '../assets/campus_img_2.png';
+import campusImg3 from '../assets/campus_img_3.jpg';
+
 
 export const FACILITIES_CATEGORIES = [
   { id: "all", name: "All Facilities" },
@@ -15,7 +19,7 @@ export const FACILITIES = [
     title: "Smart Digital Classrooms",
     shortDesc: "Interactive 4K touch panels, high-speed Wi-Fi, ergonomic furniture, and 3D learning simulations in every classroom.",
     details: "Every classroom is equipped with interactive smartboards, high-definition audio systems, climate control, and ergonomically designed furniture to promote active participation and visual learning.",
-    image: IMAGES.facilities.smartClassroom,
+    image: campusImg1,
     iconName: "Monitor",
     badge: "Tech Integration"
   },
@@ -25,7 +29,7 @@ export const FACILITIES = [
     title: "Resource & Knowledge Library",
     shortDesc: "25,000+ books, international research journals, e-reading pods, and peaceful quiet study spaces.",
     details: "Our library spans over 6,000 sq. ft., offering a digital cataloging system, Kindle reading pods, encyclopedias, competitive exam prep sections, and collaborative discussion rooms.",
-    image: IMAGES.facilities.library,
+    image: campusImg2,
     iconName: "BookOpen",
     badge: "Knowledge Hub"
   },
@@ -35,7 +39,7 @@ export const FACILITIES = [
     title: "Advanced Science & Innovation Labs",
     shortDesc: "State-of-the-art Physics, Chemistry, Biology, and Biotechnology research labs equipped with precision gear.",
     details: "Separate state-approved laboratories for Physics, Chemistry, and Biology featuring digital microscopes, safety eye-wash stations, fume hoods, and individual student experiment stations.",
-    image: IMAGES.facilities.scienceLab,
+    image: campusImg3,
     iconName: "FlaskConical",
     badge: "Hands-on Research"
   },

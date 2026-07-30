@@ -1,4 +1,8 @@
 import { IMAGES } from '../utils/images';
+import campusLife1 from '../assets/campus_life_1.jpg';
+import campusLife2 from '../assets/campus_life_2.png';
+import campusLife3 from '../assets/campus_life_3.png';
+
 
 export const GALLERY_CATEGORIES = [
   { id: "all", name: "All Media" },
@@ -14,7 +18,7 @@ export const GALLERY_ITEMS = [
     title: "Annual Track & Field Sports Meet 2026",
     category: "sports",
     type: "image",
-    url: IMAGES.gallery.sportsDay,
+    url: campusLife1,
     caption: "Senior wing students competing in the inter-house 4x100m championship relay."
   },
   {
@@ -22,7 +26,7 @@ export const GALLERY_ITEMS = [
     title: "National Science & Robotics Exhibition",
     category: "academics",
     type: "image",
-    url: IMAGES.gallery.scienceFair,
+    url: campusLife2,
     caption: "Grade 10 STEM innovation team presenting their AI-powered solar irrigation prototype."
   },
   {
@@ -30,7 +34,7 @@ export const GALLERY_ITEMS = [
     title: "Annual Symphony & Choir Concert",
     category: "events",
     type: "image",
-    url: IMAGES.gallery.annualFunction,
+    url: campusLife3,
     caption: "Apex Symphonic Orchestra performing at the 500-seat main auditorium."
   },
   {

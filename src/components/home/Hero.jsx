@@ -53,19 +53,11 @@ export const Hero = () => {
  transition={{ duration: 1.2, ease: "easeInOut" }}
  className="absolute inset-0 bg-slate-950 flex items-center justify-center"
  >
- {/* Blurred background layer to gracefully handle any aspect ratio letterboxing */}
- <img
- src={slide.bgImage}
- alt=""
- onError={(e) => { e.target.onerror = null; e.target.src = getFallbackUrl(['indian', 'school', 'hero']); }}
- className="absolute inset-0 w-full h-full object-cover opacity-20 blur-2xl"
- />
- {/* object-contain ensures the image is NEVER cut from any side. */}
  <img
  src={slide.bgImage}
  alt={slide.title}
  onError={(e) => { e.target.onerror = null; e.target.src = getFallbackUrl(['indian', 'school', 'hero']); }}
- className="relative z-10 w-full h-full object-contain"
+ className="absolute inset-0 w-full h-full object-fill sm:object-cover object-center"
  />
  {/* Gradients */}
  <div className="absolute inset-0 z-20 bg-linear-to-r from-slate-950/90 via-slate-950/60 to-slate-950/20" />

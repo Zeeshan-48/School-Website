@@ -9,6 +9,7 @@ export const ROUTES = {
   CAREER: '/career',
   CONTACT: '/contact',
   VISION_MISSION: '/vision-mission',
+  SIGN_IN: '/signin',
 };
 
 export const NAV_LINKS = [

@@ -4,6 +4,7 @@ import { CheckCircle2, ArrowRight, ShieldCheck, Award, Users, Sparkles } from 'l
 import { Button } from '../common/Button';
 import { LazyImage } from '../common/LazyImage';
 import { IMAGES } from '../../utils/images';
+import aboutImg from '../../assets/about_img.png';
 
 /* ─── animation helpers ─── */
 const fadeUp = {
@@ -38,7 +39,7 @@ export const AboutSchool = () => {
  >
  <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white group">
  <LazyImage
- src={IMAGES.banners.vision}
+ src={aboutImg}
  alt="Apex Campus Life"
  fallbackKeywords={['indian', 'school', 'campus']}
  aspectRatio="h-100 sm:h-120 w-full"
