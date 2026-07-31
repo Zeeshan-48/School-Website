@@ -1,0 +1,32 @@
+export const ROUTES = {
+  HOME: '/',
+  ABOUT: '/about',
+  ACADEMICS: '/academics',
+  ADMISSION: '/admission',
+  FACILITIES: '/facilities',
+  FACULTY: '/faculty',
+  GALLERY: '/gallery',
+  CAREER: '/career',
+  CONTACT: '/contact',
+  VISION_MISSION: '/vision-mission',
+  SIGN_IN: '/signin',
+  ADMIN_LOGIN: '/admin/login',
+  ADMIN_DASHBOARD: '/admin/dashboard',
+  ADMIN_INQUIRIES: '/admin/inquiries',
+  ADMIN_ADMISSIONS: '/admin/admissions',
+  ADMIN_FACULTY: '/admin/faculty',
+  ADMIN_CAREERS: '/admin/careers',
+  ADMIN_APPLICANTS: '/admin/applicants',
+  ADMIN_GALLERY: '/admin/gallery',
+  ADMIN_FEES: '/admin/fees',
+};
+
+export const NAV_LINKS = [
+  { name: 'Home', path: ROUTES.HOME },
+  { name: 'About', path: ROUTES.ABOUT },
+  { name: 'Academics', path: ROUTES.ACADEMICS },
+  { name: 'Admissions', path: ROUTES.ADMISSION },
+  { name: 'Gallery', path: ROUTES.GALLERY },
+  { name: 'Facilities', path: ROUTES.FACILITIES },
+  { name: 'Contact', path: ROUTES.CONTACT },
+];

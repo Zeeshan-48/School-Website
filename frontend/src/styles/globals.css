@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #166534;
+  --color-primary-dark: #14532d;
+  --color-primary-light: #15803d;
+  --color-secondary: #22c55e;
+  --color-accent: #84cc16;
+  --color-section-bg: #f0fdf4;
+  --color-surface: #f8fafc;
+  --color-heading: #111827;
+  --color-paragraph: #4b5563;
+}
+
+@layer base {
+  :root {
+    --color-primary: #166534;
+    --color-primary-dark: #14532d;
+    --color-primary-light: #15803d;
+    --color-secondary: #22c55e;
+    --color-accent: #84cc16;
+    --color-section-bg: #f0fdf4;
+    --color-surface: #f8fafc;
+    --color-border: #e5e7eb;
+    --color-heading: #111827;
+    --color-paragraph: #4b5563;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: #4b5563;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+    color: #111827;
+  }
+}
+
+/* Custom Typography Utilities */
+.font-poppins {
+  font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Glassmorphism utilities for Green & White theme */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(22, 101, 52, 0.1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 10px 25px -5px rgba(22, 101, 52, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+/* Custom Scrollbar in Forest Green */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0fdf4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #166534;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #14532d;
+}
