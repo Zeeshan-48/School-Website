@@ -20,7 +20,20 @@ app.get('/', (req, res) => {
 
 // Import Routes
 const authRoutes = require('./routes/auth.routes');
+const dashboardRoutes = require('./routes/dashboard.routes');
+const facultyRoutes = require('./routes/faculty.routes');
+const galleryRoutes = require('./routes/gallery.routes');
+const careerRoutes = require('./routes/career.routes');
+const admissionRoutes = require('./routes/admission.routes');
+const inquiryRoutes = require('./routes/inquiry.routes');
+
 app.use('/api/auth', authRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/faculty', facultyRoutes);
+app.use('/api/gallery', galleryRoutes);
+app.use('/api/careers', careerRoutes);
+app.use('/api/admissions', admissionRoutes);
+app.use('/api/inquiries', inquiryRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

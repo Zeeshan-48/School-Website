@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useApp } from '../../context/AppContext';
+import { getCareers, createCareer, updateCareer, deleteCareer } from '../../services/careerService';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import {
   Briefcase,
@@ -16,12 +16,31 @@ import {
 } from 'lucide-react';
 
 export const AdminCareers = () => {
-  const { careers, addCareer, updateCareer, deleteCareer } = useApp();
+  const [careers, setCareers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+
+  useEffect(() => {
+    fetchCareersData();
+  }, []);
+
+  const fetchCareersData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getCareers();
+      if (res.success) {
+        setCareers(res.data);
+      }
+    } catch (error) {
+      console.error('Error fetching careers', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     title: '',
@@ -73,28 +92,37 @@ export const AdminCareers = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formattedData = {
       ...formData,
       responsibilities: formData.responsibilities
-        ? formData.responsibilities.split('\n').filter(line => line.trim().length > 0)
-        : []
+        ? formData.responsibilities.split('\n').filter(line => line.trim().length > 0).join('\n')
+        : ''
     };
 
-    if (editingJob) {
-      updateCareer(editingJob.id, formattedData);
-    } else {
-      addCareer(formattedData);
+    try {
+      if (editingJob) {
+        await updateCareer(editingJob.id, formattedData);
+      } else {
+        await createCareer(formattedData);
+      }
+      fetchCareersData();
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error saving career', error);
     }
-
-    setIsModalOpen(false);
   };
 
-  const handleDelete = (id) => {
-    deleteCareer(id);
-    setDeleteConfirmId(null);
+  const handleDelete = async (id) => {
+    try {
+      await deleteCareer(id);
+      fetchCareersData();
+      setDeleteConfirmId(null);
+    } catch (error) {
+      console.error('Error deleting career', error);
+    }
   };
 
   return (
@@ -124,6 +152,9 @@ export const AdminCareers = () => {
         </div>
 
         {/* Job Cards List */}
+        {isLoading ? (
+          <div className="flex justify-center py-20 text-gray-500">Loading careers...</div>
+        ) : (
         <div className="space-y-4">
           {filteredCareers.map((job) => (
             <motion.div
@@ -187,6 +218,7 @@ export const AdminCareers = () => {
             </motion.div>
           ))}
         </div>
+        )}
 
         {/* Modal: Add/Edit Job Opening */}
         <AnimatePresence>

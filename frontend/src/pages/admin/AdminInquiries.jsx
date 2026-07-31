@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useApp } from '../../context/AppContext';
+import { getInquiries, updateInquiryStatus, deleteInquiry } from '../../services/admissionService';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import {
   MessageSquare,
@@ -18,11 +18,31 @@ import {
 } from 'lucide-react';
 
 export const AdminInquiries = () => {
-  const { inquiries, updateInquiryStatus, deleteInquiry } = useApp();
+  const [inquiries, setInquiries] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [selectedInquiry, setSelectedInquiry] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+
+  useEffect(() => {
+    fetchInquiriesData();
+  }, []);
+
+  const fetchInquiriesData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getInquiries();
+      if (res.success) {
+        setInquiries(res.data);
+      }
+    } catch (error) {
+      console.error('Error fetching inquiries', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const filteredInquiries = inquiries.filter(inq => {
     const matchesSearch =
@@ -35,10 +55,27 @@ export const AdminInquiries = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const handleDelete = (id) => {
-    deleteInquiry(id);
-    setDeleteConfirmId(null);
-    if (selectedInquiry?.id === id) setSelectedInquiry(null);
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await updateInquiryStatus(id, newStatus);
+      fetchInquiriesData();
+      if (selectedInquiry?.id === id) {
+        setSelectedInquiry({ ...selectedInquiry, status: newStatus });
+      }
+    } catch (error) {
+      console.error('Error updating status', error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteInquiry(id);
+      fetchInquiriesData();
+      setDeleteConfirmId(null);
+      if (selectedInquiry?.id === id) setSelectedInquiry(null);
+    } catch (error) {
+      console.error('Error deleting inquiry', error);
+    }
   };
 
   return (
@@ -78,7 +115,9 @@ export const AdminInquiries = () => {
 
         {/* Messages List Table / Grid */}
         <div className="glass-nav border border-gray-200 rounded-3xl overflow-hidden shadow-xl">
-          {filteredInquiries.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-20 text-gray-500">Loading inquiries...</div>
+          ) : filteredInquiries.length === 0 ? (
             <div className="p-12 text-center space-y-3">
               <MessageSquare className="w-12 h-12 text-slate-600 mx-auto" />
               <p className="text-gray-500 text-sm font-semibold">No inquiries found matching your filters.</p>
@@ -130,7 +169,7 @@ export const AdminInquiries = () => {
                   <div className="flex items-center gap-2 shrink-0 self-end sm:self-center pt-2 sm:pt-0">
                     {inq.status === 'New' ? (
                       <button
-                        onClick={() => updateInquiryStatus(inq.id, 'Responded')}
+                        onClick={() => handleStatusChange(inq.id, 'Responded')}
                         className="px-3 py-1.5 bg-emerald-600/20 text-[#166534] border border-green-200 hover:bg-[#15803d] hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                       >
                         <CheckCircle2 className="w-3.5 h-3.5" />
@@ -138,7 +177,7 @@ export const AdminInquiries = () => {
                       </button>
                     ) : (
                       <button
-                        onClick={() => updateInquiryStatus(inq.id, 'New')}
+                        onClick={() => handleStatusChange(inq.id, 'New')}
                         className="px-3 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-xl text-xs font-bold transition-all cursor-pointer"
                       >
                         Mark Unread

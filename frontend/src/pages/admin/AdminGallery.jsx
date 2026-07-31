@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useApp } from '../../context/AppContext';
+import { getGalleryItems, createGalleryItem, deleteGalleryItem as deleteGalleryApi } from '../../services/galleryService';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { GALLERY_CATEGORIES } from '../../data/gallery';
 import {
@@ -15,14 +15,37 @@ import {
 } from 'lucide-react';
 
 export const AdminGallery = () => {
-  const { galleryItems, addGalleryItem, updateGalleryItem, deleteGalleryItem } = useApp();
-
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+  
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  useEffect(() => {
+    fetchGalleryData();
+  }, []);
+
+  const fetchGalleryData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getGalleryItems();
+      if (res.success) {
+        // Map backend's 'imagePath' to 'url' for frontend compatibility
+        const mappedItems = res.data.map(item => ({ ...item, url: item.imagePath }));
+        setGalleryItems(mappedItems);
+      }
+    } catch (error) {
+      console.error('Error fetching gallery items', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     title: '',
@@ -43,6 +66,7 @@ export const AdminGallery = () => {
 
   const handleOpenAddModal = () => {
     setEditingItem(null);
+    setSelectedFile(null);
     setFormData({
       title: '',
       category: 'sports',
@@ -55,6 +79,7 @@ export const AdminGallery = () => {
 
   const handleOpenEditModal = (item) => {
     setEditingItem(item);
+    setSelectedFile(null);
     setFormData({
       title: item.title || '',
       category: item.category || 'sports',
@@ -65,21 +90,43 @@ export const AdminGallery = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editingItem) {
-      updateGalleryItem(editingItem.id, formData);
-    } else {
-      addGalleryItem(formData);
+    try {
+      if (editingItem) {
+        // We only support creating new items via Cloudinary for now, editing just updates text
+        console.warn('Editing gallery images with Multer not yet implemented in this demo');
+      } else {
+        const submissionData = new FormData();
+        submissionData.append('title', formData.title);
+        submissionData.append('category', formData.category);
+        submissionData.append('type', formData.type);
+        submissionData.append('caption', formData.caption);
+        
+        if (selectedFile) {
+          submissionData.append('image', selectedFile);
+        } else if (formData.url) {
+          submissionData.append('url', formData.url);
+        }
+        
+        await createGalleryItem(submissionData);
+      }
+      fetchGalleryData();
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error saving gallery item', error);
     }
-
-    setIsModalOpen(false);
   };
 
-  const handleDelete = (id) => {
-    deleteGalleryItem(id);
-    setDeleteConfirmId(null);
+  const handleDelete = async (id) => {
+    try {
+      await deleteGalleryApi(id);
+      fetchGalleryData();
+      setDeleteConfirmId(null);
+    } catch (error) {
+      console.error('Error deleting item', error);
+    }
   };
 
   return (
@@ -121,6 +168,9 @@ export const AdminGallery = () => {
         </div>
 
         {/* Gallery Items Grid */}
+        {isLoading ? (
+          <div className="flex justify-center py-20 text-gray-500">Loading media...</div>
+        ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item) => (
             <motion.div
@@ -181,6 +231,7 @@ export const AdminGallery = () => {
             </motion.div>
           ))}
         </div>
+        )}
 
         {/* Modal: Add/Edit Gallery Item */}
         <AnimatePresence>
@@ -244,10 +295,19 @@ export const AdminGallery = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-gray-600 mb-1">Image / Media URL *</label>
+                    <label className="block text-xs font-bold text-gray-600 mb-1">Upload File (Optional)</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setSelectedFile(e.target.files[0])}
+                      className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-gray-600 mb-1">Image / Media URL (If not uploading)</label>
                     <input
                       type="text"
-                      required
                       value={formData.url}
                       onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                       placeholder="Image URL or YouTube Embed URL"

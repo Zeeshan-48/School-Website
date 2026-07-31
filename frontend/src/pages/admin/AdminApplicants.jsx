@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useApp } from '../../context/AppContext';
+import { getApplicants, updateApplicantStatus, deleteApplicant } from '../../services/careerService';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import {
   UserCheck,
@@ -19,11 +19,31 @@ import {
 } from 'lucide-react';
 
 export const AdminApplicants = () => {
-  const { jobApplicants, updateJobApplicantStatus, deleteJobApplicant } = useApp();
+  const [jobApplicants, setJobApplicants] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [selectedApplicant, setSelectedApplicant] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+
+  useEffect(() => {
+    fetchApplicantsData();
+  }, []);
+
+  const fetchApplicantsData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getApplicants();
+      if (res.success) {
+        setJobApplicants(res.data);
+      }
+    } catch (error) {
+      console.error('Error fetching applicants', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const filteredApplicants = jobApplicants.filter(app => {
     const matchesSearch =
@@ -36,10 +56,27 @@ export const AdminApplicants = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const handleDelete = (id) => {
-    deleteJobApplicant(id);
-    setDeleteConfirmId(null);
-    if (selectedApplicant?.id === id) setSelectedApplicant(null);
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await updateApplicantStatus(id, newStatus);
+      fetchApplicantsData();
+      if (selectedApplicant?.id === id) {
+        setSelectedApplicant({ ...selectedApplicant, status: newStatus });
+      }
+    } catch (error) {
+      console.error('Error updating status', error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteApplicant(id);
+      fetchApplicantsData();
+      setDeleteConfirmId(null);
+      if (selectedApplicant?.id === id) setSelectedApplicant(null);
+    } catch (error) {
+      console.error('Error deleting applicant', error);
+    }
   };
 
   return (
@@ -80,7 +117,9 @@ export const AdminApplicants = () => {
 
         {/* Applicants List Table */}
         <div className="glass-nav border border-gray-200 rounded-3xl overflow-hidden shadow-xl">
-          {filteredApplicants.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-20 text-gray-500">Loading applicants...</div>
+          ) : filteredApplicants.length === 0 ? (
             <div className="p-12 text-center space-y-3">
               <UserCheck className="w-12 h-12 text-slate-600 mx-auto" />
               <p className="text-gray-500 text-sm font-semibold">No job applicants found matching your search criteria.</p>
@@ -114,7 +153,7 @@ export const AdminApplicants = () => {
                       </td>
                       <td className="p-4">
                         <span className="font-bold text-amber-700 bg-amber-50/80 border border-amber-200 px-2.5 py-1 rounded-lg">
-                          {app.jobTitle}
+                          {app.job?.title || 'Unknown Job'}
                         </span>
                       </td>
                       <td className="p-4">
@@ -129,7 +168,7 @@ export const AdminApplicants = () => {
                       <td className="p-4">
                         <select
                           value={app.status}
-                          onChange={(e) => updateJobApplicantStatus(app.id, e.target.value)}
+                          onChange={(e) => handleStatusChange(app.id, e.target.value)}
                           className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border focus:outline-none cursor-pointer ${
                             app.status === 'Shortlisted' ? 'bg-[#f0fdf4] text-[#15803d] border-green-200' :
                             app.status === 'Under Review' ? 'bg-blue-50 text-blue-700 border-blue-200' :
@@ -196,7 +235,7 @@ export const AdminApplicants = () => {
                 <div className="grid grid-cols-2 gap-3 bg-white rounded-2xl p-4 border border-gray-200 text-xs">
                   <div>
                     <span className="text-gray-500 block">Applied Role:</span>
-                    <span className="text-gray-900 font-bold text-sm">{selectedApplicant.jobTitle}</span>
+                    <span className="text-gray-900 font-bold text-sm">{selectedApplicant.job?.title || 'Unknown Job'}</span>
                   </div>
                   <div>
                     <span className="text-gray-500 block">Experience:</span>
@@ -216,14 +255,14 @@ export const AdminApplicants = () => {
                   </div>
                   <div>
                     <span className="text-gray-500 block">Attached Resume:</span>
-                    <span className="text-[#166534] font-bold flex items-center gap-1">
+                    <a href={selectedApplicant.resumePath} target="_blank" rel="noopener noreferrer" className="text-[#166534] hover:underline font-bold flex items-center gap-1">
                       <FileText className="w-3.5 h-3.5" />
-                      {selectedApplicant.resumeFileName || 'Resume_Document.pdf'}
-                    </span>
+                      View Resume
+                    </a>
                   </div>
                   <div>
                     <span className="text-gray-500 block">Applied Date:</span>
-                    <span className="text-gray-600 font-mono">{new Date(selectedApplicant.appliedAt).toLocaleString()}</span>
+                    <span className="text-gray-600 font-mono">{new Date(selectedApplicant.createdAt).toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -241,10 +280,7 @@ export const AdminApplicants = () => {
                     <span className="text-xs text-gray-500">Review Status:</span>
                     <select
                       value={selectedApplicant.status}
-                      onChange={(e) => {
-                        updateJobApplicantStatus(selectedApplicant.id, e.target.value);
-                        setSelectedApplicant({ ...selectedApplicant, status: e.target.value });
-                      }}
+                      onChange={(e) => handleStatusChange(selectedApplicant.id, e.target.value)}
                       className="bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-xs text-gray-900 font-bold"
                     >
                       <option value="Submitted">Submitted</option>

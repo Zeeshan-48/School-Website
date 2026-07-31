@@ -4,7 +4,7 @@ import { SectionTitle } from '../components/common/SectionTitle';
 import { PageHeader } from '../components/common/PageHeader';
 import { IMAGES } from '../utils/images';
 import { SCHOOL_INFO } from '../utils/constants';
-import { useApp } from '../context/AppContext';
+import { createInquiry } from '../services/admissionService';
 import { 
  Mail, 
  Phone, 
@@ -28,7 +28,6 @@ const fadeUp = {
 };
 
 export const Contact = () => {
- const { addInquiry } = useApp();
  const [formSubmitted, setFormSubmitted] = useState(false);
  const [contactData, setContactData] = useState({
  fullName: '',
@@ -42,17 +41,21 @@ export const Contact = () => {
  setContactData({ ...contactData, [e.target.name]: e.target.value });
  };
 
- const handleSubmit = (e) => {
+ const handleSubmit = async (e) => {
  e.preventDefault();
- addInquiry(contactData);
- setFormSubmitted(true);
- setContactData({
- fullName: '',
- email: '',
- phone: '',
- subject: 'Admissions Inquiry',
- message: ''
- });
+ try {
+   await createInquiry(contactData);
+   setFormSubmitted(true);
+   setContactData({
+   fullName: '',
+   email: '',
+   phone: '',
+   subject: 'Admissions Inquiry',
+   message: ''
+   });
+ } catch (error) {
+   console.error('Error submitting inquiry', error);
+ }
  };
 
  return (

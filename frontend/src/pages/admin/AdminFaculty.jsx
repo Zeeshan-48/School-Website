@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useApp } from '../../context/AppContext';
+import { getFaculty, createFaculty, updateFaculty as updateFacultyApi, deleteFaculty as deleteFacultyApi } from '../../services/facultyService';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { FACULTY_DEPARTMENTS } from '../../data/faculty';
 import {
@@ -17,7 +17,8 @@ import {
 } from 'lucide-react';
 
 export const AdminFaculty = () => {
-  const { faculty, addFaculty, updateFaculty, deleteFaculty } = useApp();
+  const [faculty, setFaculty] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('all');
@@ -25,6 +26,24 @@ export const AdminFaculty = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+
+  useEffect(() => {
+    fetchFacultyData();
+  }, []);
+
+  const fetchFacultyData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getFaculty();
+      if (res.success) {
+        setFaculty(res.data);
+      }
+    } catch (error) {
+      console.error('Error fetching faculty', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     name: '',
@@ -80,26 +99,35 @@ export const AdminFaculty = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formattedData = {
       ...formData,
-      subjects: formData.subjects ? formData.subjects.split(',').map(s => s.trim()) : []
+      subjects: formData.subjects ? (typeof formData.subjects === 'string' ? formData.subjects.split(',').map(s => s.trim()) : formData.subjects) : []
     };
 
-    if (editingMember) {
-      updateFaculty(editingMember.id, formattedData);
-    } else {
-      addFaculty(formattedData);
+    try {
+      if (editingMember) {
+        await updateFacultyApi(editingMember.id, formattedData);
+      } else {
+        await createFaculty(formattedData);
+      }
+      fetchFacultyData();
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error saving faculty member', error);
     }
-
-    setIsModalOpen(false);
   };
 
-  const handleDelete = (id) => {
-    deleteFaculty(id);
-    setDeleteConfirmId(null);
+  const handleDelete = async (id) => {
+    try {
+      await deleteFacultyApi(id);
+      fetchFacultyData();
+      setDeleteConfirmId(null);
+    } catch (error) {
+      console.error('Error deleting faculty member', error);
+    }
   };
 
   return (
@@ -142,8 +170,11 @@ export const AdminFaculty = () => {
         </div>
 
         {/* Faculty Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredFaculty.map((member) => (
+        {isLoading ? (
+          <div className="flex justify-center py-20 text-gray-500">Loading faculty...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredFaculty.map((member) => (
             <motion.div
               key={member.id}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -224,6 +255,7 @@ export const AdminFaculty = () => {
             </motion.div>
           ))}
         </div>
+        )}
 
         {/* Modal: Add/Edit Faculty Member */}
         <AnimatePresence>

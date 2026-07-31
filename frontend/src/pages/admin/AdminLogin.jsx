@@ -105,7 +105,7 @@ export const AdminLogin = () => {
                   value={credentials.username}
                   onChange={handleChange}
                   placeholder="admin or admin@school.com"
-                  className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full bg-white border .border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm .text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -123,7 +123,7 @@ export const AdminLogin = () => {
                   value={credentials.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full bg-white border .border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm .text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -144,12 +144,7 @@ export const AdminLogin = () => {
             </button>
           </form>
 
-          {/* Quick Credential Hint Box */}
-          <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-            <p className="text-[11px] text-gray-500">
-              Demo Credentials: <span className="text-[#166534] font-mono font-bold">admin</span> / <span className="text-[#166534] font-mono font-bold">admin123</span>
-            </p>
-          </div>
+          {/* Quick Credential Hint Box removed */}
         </motion.div>
       </div>
     </div>

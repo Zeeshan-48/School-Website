@@ -4,6 +4,7 @@ import { SectionTitle } from '../components/common/SectionTitle';
 import { PageHeader } from '../components/common/PageHeader';
 import { IMAGES } from '../utils/images';
 import { ADMISSION_STEPS, ELIGIBILITY_CRITERIA, ADMISSION_FAQS } from '../data/admissions';
+import { createAdmission } from '../services/admissionService';
 import { useApp } from '../context/AppContext';
 import { 
  FileText, 
@@ -50,7 +51,7 @@ const modalVariants = {
 };
 
 export const Admission = () => {
-  const { addAdmission, feeStructure, busFee } = useApp();
+  const { feeStructure, busFee } = useApp();
   // Fee Calculator State
   const [selectedFeeGradeIndex, setSelectedFeeGradeIndex] = useState(0);
   const [includeTransport, setIncludeTransport] = useState(true);
@@ -81,10 +82,14 @@ export const Admission = () => {
  setFormData({ ...formData, [e.target.name]: e.target.value });
  };
 
- const handleFormSubmit = (e) => {
+ const handleFormSubmit = async (e) => {
  e.preventDefault();
- addAdmission(formData);
- setIsSubmitted(true);
+ try {
+   await createAdmission(formData);
+   setIsSubmitted(true);
+ } catch (error) {
+   console.error('Error submitting application', error);
+ }
  };
 
  const resetForm = () => {

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionTitle } from '../components/common/SectionTitle';
 import { PageHeader } from '../components/common/PageHeader';
 import { GALLERY_CATEGORIES, VIDEO_HIGHLIGHTS } from '../data/gallery';
-import { useApp } from '../context/AppContext';
+import { getGalleryItems } from '../services/galleryService';
 import { IMAGES } from '../utils/images';
 import { ROUTES } from '../utils/routes';
 import {
@@ -59,10 +59,28 @@ const modalVariants = {
 };
 
 export const Gallery = () => {
- const { galleryItems } = useApp();
+ const [galleryItems, setGalleryItems] = useState([]);
+ const [isLoading, setIsLoading] = useState(true);
  const [activeCategory, setActiveCategory] = useState('all');
  const [selectedPhoto, setSelectedPhoto] = useState(null);
  const [activeVideo, setActiveVideo] = useState(null);
+
+ useEffect(() => {
+   const loadGallery = async () => {
+     try {
+       const res = await getGalleryItems();
+       if (res.success) {
+         const mappedItems = res.data.map(item => ({ ...item, url: item.imagePath }));
+         setGalleryItems(mappedItems);
+       }
+     } catch (error) {
+       console.error("Failed to load gallery:", error);
+     } finally {
+       setIsLoading(false);
+     }
+   };
+   loadGallery();
+ }, []);
 
  const filteredItems = activeCategory === 'all'
  ? galleryItems
@@ -118,6 +136,9 @@ export const Gallery = () => {
  </div>
 
  {/* Photo Grid */}
+ {isLoading ? (
+   <div className="flex justify-center py-20 text-slate-500">Loading gallery...</div>
+ ) : (
  <motion.div layout className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
  <AnimatePresence mode="popLayout">
  {filteredItems.map((item, idx) => (
@@ -129,11 +150,18 @@ export const Gallery = () => {
  animate="visible"
  exit="exit"
  custom={idx}
- onClick={() => setSelectedPhoto(item)}
+ onClick={() => {
+   if(item.type === 'video') {
+     // Assuming item.url is embedUrl for videos
+     setActiveVideo({ title: item.title, embedUrl: item.url });
+   } else {
+     setSelectedPhoto(item);
+   }
+ }}
  className="group relative h-72 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border border-slate-200/80 cursor-pointer transition-all duration-500 hover:-translate-y-1.5"
  >
  <img
- src={item.url}
+ src={item.type === 'video' ? 'https://img.youtube.com/vi/' + (item.url.split('embed/')[1] || '').split('?')[0] + '/hqdefault.jpg' : item.url}
  alt={item.title}
  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
  />
@@ -148,9 +176,9 @@ export const Gallery = () => {
  </span>
  </div>
 
- {/* Expand Icon */}
+ {/* Expand/Play Icon */}
  <div className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/20 text-white backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-white/30">
- <Maximize2 className="w-4 h-4" />
+ {item.type === 'video' ? <Play className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
  </div>
 
  {/* Bottom Content */}
@@ -166,6 +194,7 @@ export const Gallery = () => {
  ))}
  </AnimatePresence>
  </motion.div>
+ )}
  </motion.section>
 
  {/* 3. Video Highlights Section */}

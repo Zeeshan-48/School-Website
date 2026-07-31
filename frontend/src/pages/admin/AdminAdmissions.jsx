@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useApp } from '../../context/AppContext';
+import { getAdmissions, updateAdmissionStatus, deleteAdmission } from '../../services/admissionService';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import {
   FileSpreadsheet,
@@ -19,11 +19,31 @@ import {
 } from 'lucide-react';
 
 export const AdminAdmissions = () => {
-  const { admissions, updateAdmissionStatus, deleteAdmission } = useApp();
+  const [admissions, setAdmissions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [selectedApp, setSelectedApp] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+
+  useEffect(() => {
+    fetchAdmissionsData();
+  }, []);
+
+  const fetchAdmissionsData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getAdmissions();
+      if (res.success) {
+        setAdmissions(res.data);
+      }
+    } catch (error) {
+      console.error('Error fetching admissions', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const filteredAdmissions = admissions.filter(app => {
     const matchesSearch =
@@ -37,10 +57,27 @@ export const AdminAdmissions = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const handleDelete = (id) => {
-    deleteAdmission(id);
-    setDeleteConfirmId(null);
-    if (selectedApp?.id === id) setSelectedApp(null);
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await updateAdmissionStatus(id, newStatus);
+      fetchAdmissionsData();
+      if (selectedApp?.id === id) {
+        setSelectedApp({ ...selectedApp, status: newStatus });
+      }
+    } catch (error) {
+      console.error('Error updating status', error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteAdmission(id);
+      fetchAdmissionsData();
+      setDeleteConfirmId(null);
+      if (selectedApp?.id === id) setSelectedApp(null);
+    } catch (error) {
+      console.error('Error deleting admission', error);
+    }
   };
 
   return (
@@ -81,7 +118,9 @@ export const AdminAdmissions = () => {
 
         {/* Applications List Table */}
         <div className="glass-nav border border-gray-200 rounded-3xl overflow-hidden shadow-xl">
-          {filteredAdmissions.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-20 text-gray-500">Loading admissions...</div>
+          ) : filteredAdmissions.length === 0 ? (
             <div className="p-12 text-center space-y-3">
               <FileSpreadsheet className="w-12 h-12 text-slate-600 mx-auto" />
               <p className="text-gray-500 text-sm font-semibold">No applications found matching your criteria.</p>
@@ -132,7 +171,7 @@ export const AdminAdmissions = () => {
                       <td className="p-4">
                         <select
                           value={app.status}
-                          onChange={(e) => updateAdmissionStatus(app.id, e.target.value)}
+                          onChange={(e) => handleStatusChange(app.id, e.target.value)}
                           className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border focus:outline-none cursor-pointer ${
                             app.status === 'Approved' ? 'bg-[#f0fdf4] text-[#15803d] border-green-200' :
                             app.status === 'Under Review' ? 'bg-amber-50 text-amber-700 border-amber-200' :
@@ -231,7 +270,7 @@ export const AdminAdmissions = () => {
                   </div>
                   <div>
                     <span className="text-gray-500 block">Submitted On:</span>
-                    <span className="text-gray-600 font-mono">{new Date(selectedApp.submittedAt).toLocaleString()}</span>
+                    <span className="text-gray-600 font-mono">{new Date(selectedApp.createdAt).toLocaleString()}</span>
                   </div>
                 </div>
 
@@ -240,10 +279,7 @@ export const AdminAdmissions = () => {
                     <span className="text-xs text-gray-500">Change Status:</span>
                     <select
                       value={selectedApp.status}
-                      onChange={(e) => {
-                        updateAdmissionStatus(selectedApp.id, e.target.value);
-                        setSelectedApp({ ...selectedApp, status: e.target.value });
-                      }}
+                      onChange={(e) => handleStatusChange(selectedApp.id, e.target.value)}
                       className="bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-xs text-gray-900 font-bold"
                     >
                       <option value="Submitted">Submitted</option>

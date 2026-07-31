@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, ArrowRight, Award, Send, CheckCircle2, Spark
 import { HERO_SLIDES } from '../../data/hero';
 import { Button } from '../common/Button';
 import { getFallbackUrl } from '../../utils/images';
-import { useApp } from '../../context/AppContext';
+import { createInquiry } from '../../services/admissionService';
 
 export const Hero = () => {
  const [currentSlide, setCurrentSlide] = useState(0);
@@ -14,7 +14,6 @@ export const Hero = () => {
  phone: '',
  grade: 'Nursery'
  });
- const { addInquiry } = useApp();
 
  useEffect(() => {
  const timer = setInterval(() => {
@@ -26,10 +25,11 @@ export const Hero = () => {
  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
 
- const handleSubmit = (e) => {
+ const handleSubmit = async (e) => {
  e.preventDefault();
  if (formData.parentName && formData.phone) {
- addInquiry({
+ try {
+ await createInquiry({
  fullName: formData.parentName,
  email: 'Not Provided (Quick Enquiry)',
  phone: formData.phone,
@@ -41,6 +41,9 @@ export const Hero = () => {
  setIsSubmitted(false);
  setFormData({ parentName: '', phone: '', grade: 'Nursery' });
  }, 5000);
+ } catch (error) {
+ console.error('Failed to submit quick enquiry', error);
+ }
  }
  };
 

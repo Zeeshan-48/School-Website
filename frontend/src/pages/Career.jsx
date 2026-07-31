@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getCareers, createApplicant } from '../services/careerService';
 import { SectionTitle } from '../components/common/SectionTitle';
 import { PageHeader } from '../components/common/PageHeader';
 import { IMAGES } from '../utils/images';
 import { WORKPLACE_BENEFITS } from '../data/careers';
-import { useApp } from '../context/AppContext';
+
 import { 
  Briefcase, 
  MapPin, 
@@ -54,10 +55,30 @@ const modalVariants = {
 };
 
 export const Career = () => {
- const { careers, addJobApplicant } = useApp();
+ const [careers, setCareers] = useState([]);
+ const [isLoading, setIsLoading] = useState(true);
  const [selectedJob, setSelectedJob] = useState(null);
  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
  const [isSubmitted, setIsSubmitted] = useState(false);
+ const [selectedFile, setSelectedFile] = useState(null);
+
+ useEffect(() => {
+   fetchJobs();
+ }, []);
+
+ const fetchJobs = async () => {
+   setIsLoading(true);
+   try {
+     const res = await getCareers();
+     if (res.success) {
+       setCareers(res.data);
+     }
+   } catch (error) {
+     console.error('Error fetching jobs', error);
+   } finally {
+     setIsLoading(false);
+   }
+ };
 
  const [applicantData, setApplicantData] = useState({
  fullName: '',
@@ -74,24 +95,43 @@ export const Career = () => {
 
  const handleFileChange = (e) => {
  if (e.target.files && e.target.files[0]) {
- setApplicantData({ ...applicantData, resumeFileName: e.target.files[0].name });
+   const file = e.target.files[0];
+   setSelectedFile(file);
+   setApplicantData({ ...applicantData, resumeFileName: file.name });
  }
  };
 
- const handleFormSubmit = (e) => {
+ const handleFormSubmit = async (e) => {
  e.preventDefault();
- addJobApplicant({
- ...applicantData,
- jobTitle: selectedJob ? selectedJob.title : 'General Educator Role',
- jobId: selectedJob ? selectedJob.id : 'job-gen'
- });
- setIsSubmitted(true);
+ 
+ const formData = new FormData();
+ formData.append('fullName', applicantData.fullName);
+ formData.append('email', applicantData.email);
+ formData.append('phone', applicantData.phone);
+ formData.append('experience', applicantData.experience);
+ formData.append('coverLetter', applicantData.coverLetter);
+ formData.append('jobId', selectedJob ? selectedJob.id : '');
+ 
+ if (selectedFile) {
+   formData.append('resume', selectedFile);
+ }
+
+ try {
+   await createApplicant(formData);
+   setIsSubmitted(true);
+ } catch (error) {
+   console.error('Error submitting application', error);
+ }
  };
 
  const resetModal = () => {
  setIsSubmitted(false);
  setIsApplyModalOpen(false);
  setSelectedJob(null);
+ setSelectedFile(null);
+ setApplicantData({
+   fullName: '', email: '', phone: '', experience: '3 Years', coverLetter: '', resumeFileName: ''
+ });
  };
 
  return (
@@ -122,7 +162,10 @@ export const Career = () => {
  />
 
  <div className="mt-12 space-y-6">
- {careers.map((job, idx) => (
+ {isLoading ? (
+   <div className="flex justify-center py-10 text-slate-500">Loading careers...</div>
+ ) : (
+   careers.map((job, idx) => (
  <motion.div 
  key={job.id}
  variants={fadeUp}
@@ -169,10 +212,11 @@ export const Career = () => {
  <span>Apply For Role</span>
  <ArrowRight className="w-4 h-4" />
  </button>
- </div>
- </motion.div>
- ))}
- </div>
+      </div>
+    </motion.div>
+  ))
+)}
+</div>
  </motion.section>
 
  {/* 3. Workplace Culture & Benefits */}

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
+import api from '../../services/api';
 import { ROUTES } from '../../utils/routes';
 import {
   LayoutDashboard,
@@ -22,16 +23,37 @@ import {
 export const AdminLayout = ({ children, title }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAdminAuthenticated, adminLogout, inquiries, admissions, jobApplicants } = useApp();
+  const { isAdminAuthenticated, adminLogout } = useApp();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [stats, setStats] = useState({
+    unreadInquiriesCount: 0,
+    pendingAdmissionsCount: 0,
+    pendingApplicantsCount: 0
+  });
+
+  useEffect(() => {
+    if (isAdminAuthenticated) {
+      const fetchStats = async () => {
+        try {
+          const res = await api.get('/dashboard/stats');
+          if (res.data.success) {
+            setStats({
+              unreadInquiriesCount: res.data.data.newInquiries || 0,
+              pendingAdmissionsCount: res.data.data.pendingAdmissions || 0,
+              pendingApplicantsCount: res.data.data.newApplicants || 0
+            });
+          }
+        } catch (error) {
+          console.error('Failed to fetch sidebar stats', error);
+        }
+      };
+      fetchStats();
+    }
+  }, [isAdminAuthenticated, location.pathname]);
 
   if (!isAdminAuthenticated) {
     return <Navigate to={ROUTES.ADMIN_LOGIN} replace />;
   }
-
-  const unreadInquiriesCount = inquiries.filter(i => i.status === 'New').length;
-  const pendingAdmissionsCount = admissions.filter(a => a.status === 'Submitted').length;
-  const pendingApplicantsCount = (jobApplicants || []).filter(a => a.status === 'Submitted').length;
 
   const navItems = [
     {
@@ -43,21 +65,21 @@ export const AdminLayout = ({ children, title }) => {
       name: 'Inquiry Messages',
       path: ROUTES.ADMIN_INQUIRIES,
       icon: MessageSquare,
-      badge: unreadInquiriesCount > 0 ? unreadInquiriesCount : null,
+      badge: stats.unreadInquiriesCount > 0 ? stats.unreadInquiriesCount : null,
       badgeColor: 'bg-emerald-500 text-white'
     },
     {
       name: 'Admissions Applications',
       path: ROUTES.ADMIN_ADMISSIONS,
       icon: FileSpreadsheet,
-      badge: pendingAdmissionsCount > 0 ? pendingAdmissionsCount : null,
+      badge: stats.pendingAdmissionsCount > 0 ? stats.pendingAdmissionsCount : null,
       badgeColor: 'bg-blue-500 text-white'
     },
     {
       name: 'Job Applicants',
       path: ROUTES.ADMIN_APPLICANTS,
       icon: UserCheck,
-      badge: pendingApplicantsCount > 0 ? pendingApplicantsCount : null,
+      badge: stats.pendingApplicantsCount > 0 ? stats.pendingApplicantsCount : null,
       badgeColor: 'bg-amber-500 text-white'
     },
     {

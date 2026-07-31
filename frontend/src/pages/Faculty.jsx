@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Award, GraduationCap, Sparkles, Star, Users, CheckCircle2, ArrowRight } from 'lucide-react';
@@ -6,10 +6,10 @@ import { SectionTitle } from '../components/common/SectionTitle';
 import { PageHeader } from '../components/common/PageHeader';
 import { Button } from '../components/common/Button';
 import { FACULTY_DEPARTMENTS } from '../data/faculty';
-import { useApp } from '../context/AppContext';
 import { ROUTES } from '../utils/routes';
 import { IMAGES } from '../utils/images';
 import { LazyImage } from '../components/common/LazyImage';
+import { getFaculty } from '../services/facultyService';
 
 /* ─── animation helpers ─── */
 const fadeUp = {
@@ -36,8 +36,25 @@ const fadeScale = {
 };
 
 export const Faculty = () => {
- const { faculty } = useApp();
+ const [faculty, setFaculty] = useState([]);
+ const [isLoading, setIsLoading] = useState(true);
  const [activeTab, setActiveTab] = useState('all');
+
+ useEffect(() => {
+   const loadFaculty = async () => {
+     try {
+       const res = await getFaculty();
+       if (res.success) {
+         setFaculty(res.data);
+       }
+     } catch (error) {
+       console.error("Failed to load faculty:", error);
+     } finally {
+       setIsLoading(false);
+     }
+   };
+   loadFaculty();
+ }, []);
 
  const filteredFaculty = activeTab === 'all'
  ? faculty
@@ -170,7 +187,10 @@ export const Faculty = () => {
  </div>
 
  {/* Faculty Grid */}
- <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+ {isLoading ? (
+   <div className="flex justify-center py-20 text-slate-500">Loading faculty...</div>
+ ) : (
+   <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
  <AnimatePresence mode="popLayout">
  {filteredFaculty.map((member, idx) => (
  <motion.div
@@ -235,6 +255,7 @@ export const Faculty = () => {
  ))}
  </AnimatePresence>
  </motion.div>
+ )}
  </motion.section>
 
  {/* Join Faculty CTA */}
