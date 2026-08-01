@@ -19,6 +19,8 @@ export const ROUTES = {
   ADMIN_APPLICANTS: '/admin/applicants',
   ADMIN_GALLERY: '/admin/gallery',
   ADMIN_FEES: '/admin/fees',
+  NOTICES: '/notices',
+  ADMIN_NOTICES: '/admin/notices',
 };
 
 export const NAV_LINKS = [
@@ -28,5 +30,6 @@ export const NAV_LINKS = [
   { name: 'Admissions', path: ROUTES.ADMISSION },
   { name: 'Gallery', path: ROUTES.GALLERY },
   { name: 'Facilities', path: ROUTES.FACILITIES },
+  { name: 'Notices', path: ROUTES.NOTICES },
   { name: 'Contact', path: ROUTES.CONTACT },
 ];

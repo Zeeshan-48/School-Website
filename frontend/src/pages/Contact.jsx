@@ -303,7 +303,7 @@ export const Contact = () => {
  <div className="h-96 w-full bg-slate-200 relative group">
  <iframe
  title="School Location Map"
- src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.562145892!2d77.3789!3d28.6139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjg8MTInNTAuMCJOIDc3wrAyMic0NC4wIkU!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+ src={`https://maps.google.com/maps?q=${encodeURIComponent(SCHOOL_INFO.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
  className="w-full h-full border-0 absolute inset-0 opacity-90 group-hover:opacity-100 transition-opacity duration-500"
  loading="lazy"
  />

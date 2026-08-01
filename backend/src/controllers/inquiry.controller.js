@@ -14,6 +14,7 @@ exports.createInquiry = async (req, res) => {
     const newInquiry = await Inquiry.create(req.body);
     res.status(201).json({ success: true, data: newInquiry });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };

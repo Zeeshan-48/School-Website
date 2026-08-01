@@ -6,12 +6,16 @@ export const getFaculty = async () => {
 };
 
 export const createFaculty = async (facultyData) => {
-  const response = await api.post('/faculty', facultyData);
+  const response = await api.post('/faculty', facultyData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   return response.data;
 };
 
 export const updateFaculty = async (id, facultyData) => {
-  const response = await api.put(`/faculty/${id}`, facultyData);
+  const response = await api.put(`/faculty/${id}`, facultyData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
   return response.data;
 };
 

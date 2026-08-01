@@ -15,4 +15,8 @@ router.post('/', upload.single('image'), galleryController.createGalleryItem);
 // @desc    Delete gallery item
 router.delete('/:id', galleryController.deleteGalleryItem);
 
+// @route   PUT /api/gallery/:id
+// @desc    Update gallery item
+router.put('/:id', upload.single('image'), galleryController.updateGalleryItem);
+
 module.exports = router;

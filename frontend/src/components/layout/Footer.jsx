@@ -55,6 +55,7 @@ export const Footer = () => {
                 { name: 'About', path: ROUTES.ABOUT },
                 { name: 'Facilities', path: ROUTES.FACILITIES },
                 { name: 'Admissions', path: ROUTES.ADMISSION },
+                { name: 'Notices', path: ROUTES.NOTICES },
                 { name: 'Admin Portal', path: ROUTES.ADMIN_LOGIN }
               ].map((link) => (
                 <li key={link.path}>

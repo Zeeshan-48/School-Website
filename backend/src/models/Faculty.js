@@ -12,7 +12,7 @@ const Faculty = sequelize.define('Faculty', {
   department: { type: DataTypes.STRING, defaultValue: 'stem' },
   experience: { type: DataTypes.STRING },
   qualification: { type: DataTypes.STRING },
-  imagePath: { type: DataTypes.STRING }, // Cloudinary URL
+  image: { type: DataTypes.STRING }, // Local file path URL
   bio: { type: DataTypes.TEXT },
   awards: { type: DataTypes.STRING },
   subjects: { 

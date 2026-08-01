@@ -17,7 +17,8 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Bell
+  Bell,
+  Megaphone
 } from 'lucide-react';
 
 export const AdminLayout = ({ children, title }) => {
@@ -96,6 +97,11 @@ export const AdminLayout = ({ children, title }) => {
       name: 'Gallery CMS',
       path: ROUTES.ADMIN_GALLERY,
       icon: ImageIcon
+    },
+    {
+      name: 'Notice Management',
+      path: ROUTES.ADMIN_NOTICES,
+      icon: Megaphone
     },
     {
       name: 'Fee Structure',

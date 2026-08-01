@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getCareers, createApplicant } from '../services/careerService';
 import { SectionTitle } from '../components/common/SectionTitle';
 import { PageHeader } from '../components/common/PageHeader';
 import { IMAGES } from '../utils/images';
 import { WORKPLACE_BENEFITS } from '../data/careers';
+import aboutBannerImg from '../assets/about_img.png';
 
 import { 
  Briefcase, 
@@ -18,7 +20,8 @@ import {
  X, 
  CheckCircle2,
  FileText,
- Upload
+ Upload,
+ AlertCircle
 } from 'lucide-react';
 
 const ICON_MAP = {
@@ -55,6 +58,7 @@ const modalVariants = {
 };
 
 export const Career = () => {
+ const location = useLocation();
  const [careers, setCareers] = useState([]);
  const [isLoading, setIsLoading] = useState(true);
  const [selectedJob, setSelectedJob] = useState(null);
@@ -65,6 +69,17 @@ export const Career = () => {
  useEffect(() => {
    fetchJobs();
  }, []);
+
+ useEffect(() => {
+   if (!isLoading && location.hash === '#current-openings') {
+     setTimeout(() => {
+       const element = document.getElementById('current-openings');
+       if (element) {
+         element.scrollIntoView({ behavior: 'smooth' });
+       }
+     }, 100);
+   }
+ }, [isLoading, location.hash]);
 
  const fetchJobs = async () => {
    setIsLoading(true);
@@ -84,7 +99,7 @@ export const Career = () => {
  fullName: '',
  email: '',
  phone: '',
- experience: '3 Years',
+ experience: 'Fresher (0 Years)',
  coverLetter: '',
  resumeFileName: ''
  });
@@ -101,8 +116,11 @@ export const Career = () => {
  }
  };
 
+ const [submitError, setSubmitError] = useState('');
+
  const handleFormSubmit = async (e) => {
  e.preventDefault();
+ setSubmitError('');
  
  const formData = new FormData();
  formData.append('fullName', applicantData.fullName);
@@ -117,10 +135,15 @@ export const Career = () => {
  }
 
  try {
-   await createApplicant(formData);
-   setIsSubmitted(true);
+   const res = await createApplicant(formData);
+   if (res.success) {
+     setIsSubmitted(true);
+   } else {
+     setSubmitError(res.message || 'Failed to submit application. Please try again.');
+   }
  } catch (error) {
    console.error('Error submitting application', error);
+   setSubmitError(error.response?.data?.message || 'An error occurred while submitting your application.');
  }
  };
 
@@ -130,7 +153,7 @@ export const Career = () => {
  setSelectedJob(null);
  setSelectedFile(null);
  setApplicantData({
-   fullName: '', email: '', phone: '', experience: '3 Years', coverLetter: '', resumeFileName: ''
+   fullName: '', email: '', phone: '', experience: 'Fresher (0 Years)', coverLetter: '', resumeFileName: ''
  });
  };
 
@@ -140,16 +163,17 @@ export const Career = () => {
  {/* 1. Hero Banner */}
  <PageHeader
  icon={Briefcase}
- badge="Join Our Educator Team"
- title="Shape Tomorrow's Leaders at Apex"
- subtitle="Join a team of passionate educators and professionals dedicated to shaping the future."
- bgImage={IMAGES.banners.career}
+ badge="Join Our Faculty"
+ title="Build Your Career With Apex"
+ subtitle="We are always looking for passionate educators and professionals to join our academic community."
+ bgImage={aboutBannerImg}
  />
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-16 sm:pb-24 space-y-20 sm:space-y-24">
 
  {/* 2. Open Vacancies Directory */}
  <motion.section 
+ id="current-openings"
  initial="hidden"
  whileInView="visible"
  viewport={{ once: true, amount: 0.1 }}
@@ -164,7 +188,7 @@ export const Career = () => {
  <div className="mt-12 space-y-6">
  {isLoading ? (
    <div className="flex justify-center py-10 text-slate-500">Loading careers...</div>
- ) : (
+ ) : careers.length > 0 ? (
    careers.map((job, idx) => (
  <motion.div 
  key={job.id}
@@ -198,7 +222,21 @@ export const Career = () => {
  <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-medium text-slate-700">
  <span className="flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-[#166534]" /> <strong>Req:</strong> {job.qualification}</span>
  <span className="flex items-center gap-1.5"><Briefcase className="w-4 h-4 text-[#166534]" /> <strong>Exp:</strong> {job.experience}</span>
+ {job.salary && (
+ <span className="flex items-center gap-1.5"><Award className="w-4 h-4 text-[#166534]" /> <strong>Salary:</strong> {job.salary}</span>
+ )}
  </div>
+
+ {job.responsibilities && (
+ <div className="mt-4 bg-slate-50 border border-slate-100 rounded-xl p-4">
+ <h4 className="text-xs font-bold text-slate-800 mb-2">Key Responsibilities:</h4>
+ <ul className="list-disc pl-4 text-xs text-slate-600 space-y-1 font-inter">
+ {job.responsibilities.split('\n').map((resp, i) => (
+ resp.trim() ? <li key={i}>{resp.trim()}</li> : null
+ ))}
+ </ul>
+ </div>
+ )}
  </div>
 
  <div className="flex items-center gap-3 shrink-0 w-full md:w-auto mt-4 md:mt-0">
@@ -212,9 +250,14 @@ export const Career = () => {
  <span>Apply For Role</span>
  <ArrowRight className="w-4 h-4" />
  </button>
-      </div>
-    </motion.div>
+ </div>
+ </motion.div>
   ))
+) : (
+  <div className="text-center py-10 text-slate-500 bg-white rounded-3xl border border-slate-200">
+    <h3 className="text-lg font-semibold text-slate-800">No current openings available</h3>
+    <p className="mt-2 text-sm">Please check back later or submit a general application.</p>
+  </div>
 )}
 </div>
  </motion.section>
@@ -331,12 +374,12 @@ export const Career = () => {
  name="experience"
  value={applicantData.experience}
  onChange={handleInputChange}
- className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] transition-colors appearance-none"
+ className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] transition-colors appearance-none cursor-pointer"
  >
- <option value="Fresher">Fresher (0 - 1 Yr)</option>
- <option value="1-3 Years">1 - 3 Years</option>
- <option value="3-5 Years">3 - 5 Years</option>
- <option value="5+ Years">5+ Years Experience</option>
+ <option value="Fresher (0 Years)">Fresher (0 Years)</option>
+ <option value="1 - 2 Years">1 - 2 Years</option>
+ <option value="3 - 5 Years">3 - 5 Years</option>
+ <option value="5+ Years Experience">5+ Years Experience</option>
  </select>
  </div>
  </div>
@@ -404,6 +447,12 @@ export const Career = () => {
  </div>
 
  <div className="pt-2">
+  {submitError && (
+    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm flex items-start gap-2">
+      <AlertCircle className="w-5 h-5 shrink-0" />
+      <p>{submitError}</p>
+    </div>
+  )}
  <button
  type="submit"
  className="w-full bg-[#166534] hover:bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl text-sm transition-all duration-300 cursor-pointer"

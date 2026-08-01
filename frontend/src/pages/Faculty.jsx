@@ -10,6 +10,7 @@ import { ROUTES } from '../utils/routes';
 import { IMAGES } from '../utils/images';
 import { LazyImage } from '../components/common/LazyImage';
 import { getFaculty } from '../services/facultyService';
+import aboutBannerImg from '../assets/about_img.png';
 
 /* ─── animation helpers ─── */
 const fadeUp = {
@@ -69,7 +70,7 @@ export const Faculty = () => {
  badge="100% Certified Educator Staff"
  title="Our Esteemed Educator Faculty"
  subtitle="Meet the visionary leaders, doctorate scholars, and passionate mentors driving academic excellence, innovation, and character building."
- bgImage={IMAGES.banners.faculty}
+ bgImage={aboutBannerImg}
  />
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-16 sm:pb-24 space-y-20 sm:space-y-24">
@@ -274,7 +275,7 @@ export const Faculty = () => {
  </p>
  </div>
  <Link
- to={ROUTES.CAREER}
+ to={`${ROUTES.CAREER}#current-openings`}
  className="bg-white text-[#166534] hover:bg-lime-400 hover:text-slate-950 font-bold px-8 py-4 rounded-full shadow-lg transition-all duration-300 inline-flex items-center gap-2 text-base shrink-0 hover:scale-105"
  >
  <span>View Career Openings</span>

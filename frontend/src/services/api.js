@@ -32,9 +32,9 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear token and optionally force a reload/redirect to login
+      // Clear token and force a reload/redirect to login
       localStorage.removeItem('adminToken');
-      // window.location.href = '/admin'; // Redirect logic depends on the router
+      window.location.href = '/admin/login';
     }
     return Promise.reject(error);
   }

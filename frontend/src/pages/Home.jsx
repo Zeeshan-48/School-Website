@@ -9,10 +9,12 @@ import { Statistics } from '../components/home/Statistics';
 import { Testimonials } from '../components/home/Testimonials';
 import { NewsEvents } from '../components/home/NewsEvents';
 import { ContactCTA } from '../components/home/ContactCTA';
+import { NoticePopup } from '../components/home/NoticePopup';
 
 export const Home = () => {
   return (
     <div className="min-h-screen bg-white">
+      <NoticePopup />
       <Hero />
       <AboutSchool />
       <AcademicPrograms />

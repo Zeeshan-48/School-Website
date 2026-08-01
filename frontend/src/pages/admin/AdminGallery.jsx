@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getGalleryItems, createGalleryItem, deleteGalleryItem as deleteGalleryApi } from '../../services/galleryService';
+import { getGalleryItems, createGalleryItem, updateGalleryItem as updateGalleryApi, deleteGalleryItem as deleteGalleryApi } from '../../services/galleryService';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { GALLERY_CATEGORIES } from '../../data/gallery';
 import {
@@ -17,14 +17,14 @@ import {
 export const AdminGallery = () => {
   const [galleryItems, setGalleryItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
-  
+
   const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const AdminGallery = () => {
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (item.caption && item.caption.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    const matchesCat = categoryFilter === 'all' ? true : item.category === categoryFilter;
+    const matchesCat = categoryFilter === 'all' ? true : (item.category || '').toLowerCase() === categoryFilter.toLowerCase();
     return matchesSearch && matchesCat;
   });
 
@@ -94,22 +94,21 @@ export const AdminGallery = () => {
     e.preventDefault();
 
     try {
+      const submissionData = new FormData();
+      submissionData.append('title', formData.title);
+      submissionData.append('category', formData.category);
+      submissionData.append('type', formData.type);
+      submissionData.append('caption', formData.caption);
+
+      if (selectedFile) {
+        submissionData.append('image', selectedFile);
+      } else if (formData.url) {
+        submissionData.append('url', formData.url);
+      }
+
       if (editingItem) {
-        // We only support creating new items via Cloudinary for now, editing just updates text
-        console.warn('Editing gallery images with Multer not yet implemented in this demo');
+        await updateGalleryApi(editingItem.id, submissionData);
       } else {
-        const submissionData = new FormData();
-        submissionData.append('title', formData.title);
-        submissionData.append('category', formData.category);
-        submissionData.append('type', formData.type);
-        submissionData.append('caption', formData.caption);
-        
-        if (selectedFile) {
-          submissionData.append('image', selectedFile);
-        } else if (formData.url) {
-          submissionData.append('url', formData.url);
-        }
-        
         await createGalleryItem(submissionData);
       }
       fetchGalleryData();
@@ -142,7 +141,7 @@ export const AdminGallery = () => {
               placeholder="Search photo/video title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full bg-white border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-xs .text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
 
@@ -171,66 +170,66 @@ export const AdminGallery = () => {
         {isLoading ? (
           <div className="flex justify-center py-20 text-gray-500">Loading media...</div>
         ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.map((item) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="glass-nav border border-gray-200 rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between group hover:border-teal-500/60 transition-all"
-            >
-              <div>
-                <div className="h-48 bg-surface relative overflow-hidden">
-                  {item.url ? (
-                    <img
-                      src={item.url}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-600 font-semibold text-xs">
-                      No Preview Available
-                    </div>
-                  )}
-                  <span className="absolute top-3 left-3 bg-black/70 text-teal-700 border border-teal-500/40 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
-                    {item.category}
-                  </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredItems.map((item) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="glass-nav border border-gray-200 rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between group hover:border-teal-500/60 transition-all"
+              >
+                <div>
+                  <div className="h-48 bg-surface relative overflow-hidden">
+                    {item.url ? (
+                      <img
+                        src={item.url}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-600 font-semibold text-xs">
+                        No Preview Available
+                      </div>
+                    )}
+                    <span className="absolute top-3 left-3 bg-black/70 text-teal-700 border border-teal-500/40 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-xs">
+                      {item.category}
+                    </span>
+                  </div>
+
+                  <div className="p-5 space-y-2">
+                    <h3 className="font-bold text-gray-900 text-base leading-snug font-poppins">
+                      {item.title}
+                    </h3>
+                    {item.caption && (
+                      <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                        {item.caption}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
-                <div className="p-5 space-y-2">
-                  <h3 className="font-bold text-gray-900 text-base leading-snug font-poppins">
-                    {item.title}
-                  </h3>
-                  {item.caption && (
-                    <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                      {item.caption}
-                    </p>
-                  )}
+                {/* Actions Footer */}
+                <div className="p-4 bg-white border-t border-gray-200 flex items-center justify-between">
+                  <span className="text-[10px] text-gray-400 font-mono">ID: {item.id}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleOpenEditModal(item)}
+                      className="px-3 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => setDeleteConfirmId(item.id)}
+                      className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-
-              {/* Actions Footer */}
-              <div className="p-4 bg-slate-900/40 border-t border-gray-200 flex items-center justify-between">
-                <span className="text-[10px] text-gray-400 font-mono">ID: {item.id}</span>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleOpenEditModal(item)}
-                    className="px-3 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1"
-                  >
-                    <Edit2 className="w-3.5 h-3.5" />
-                    <span>Edit</span>
-                  </button>
-                  <button
-                    onClick={() => setDeleteConfirmId(item.id)}
-                    className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
         )}
 
         {/* Modal: Add/Edit Gallery Item */}
@@ -245,7 +244,7 @@ export const AdminGallery = () => {
               >
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="absolute right-6 top-6 text-gray-500 hover:text-white"
+                  className="absolute right-6 top-6 text-gray-500 hover:text-gray-900 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -294,26 +293,29 @@ export const AdminGallery = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-bold text-gray-600 mb-1">Upload File (Optional)</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => setSelectedFile(e.target.files[0])}
-                      className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-gray-600 mb-1">Image / Media URL (If not uploading)</label>
-                    <input
-                      type="text"
-                      value={formData.url}
-                      onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                      placeholder="Image URL or YouTube Embed URL"
-                      className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    />
-                  </div>
+                  {formData.type === 'image' ? (
+                    <div>
+                      <label className="block text-xs font-bold text-gray-600 mb-1">Upload Photo Image</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setSelectedFile(e.target.files[0])}
+                        className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="block text-xs font-bold text-gray-600 mb-1">YouTube Embed URL</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.url}
+                        onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                        placeholder="https://www.youtube.com/embed/..."
+                        className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      />
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-xs font-bold text-gray-600 mb-1">Caption / Description</label>

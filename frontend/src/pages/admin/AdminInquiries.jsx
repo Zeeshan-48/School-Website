@@ -98,7 +98,7 @@ export const AdminInquiries = () => {
           {/* Status Filter Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
             <Filter className="w-4 h-4 text-gray-500 shrink-0 hidden sm:block" />
-            {['All', 'New', 'Responded', 'Archived'].map((status) => (
+            {['All', 'New', 'Responded'].map((status) => (
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
@@ -210,7 +210,7 @@ export const AdminInquiries = () => {
               >
                 <button
                   onClick={() => setSelectedInquiry(null)}
-                  className="absolute right-6 top-6 text-gray-500 hover:text-white"
+                  className="absolute right-6 top-6 text-gray-500 hover:text-gray-900 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>

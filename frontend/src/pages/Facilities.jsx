@@ -297,7 +297,7 @@ export const Facilities = () => {
  <span className="bg-lime-400 text-slate-950 text-xs font-extrabold px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
  {selectedFacility.badge}
  </span>
- <h3 className="font-poppins text-3xl font-bold mt-3">
+ <h3 className="font-poppins text-3xl font-bold mt-3 text-white">
  {selectedFacility.title}
  </h3>
  </div>

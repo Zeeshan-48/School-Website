@@ -6,6 +6,7 @@ import { Footer } from './components/layout/Footer';
 import { Loader } from './components/layout/Loader';
 import { AppProvider } from './context/AppContext';
 import { ROUTES } from './utils/routes';
+import { ProtectedRoute } from './components/admin/ProtectedRoute';
 
 // Lazy Load Public Pages
 const Home = lazy(() => import('./pages/Home'));
@@ -18,6 +19,8 @@ const Gallery = lazy(() => import('./pages/Gallery'));
 const Career = lazy(() => import('./pages/Career'));
 const Contact = lazy(() => import('./pages/Contact'));
 const VisionMission = lazy(() => import('./pages/VisionMission'));
+const Notices = lazy(() => import('./pages/Notices'));
+const NoticeDetail = lazy(() => import('./pages/NoticeDetail'));
 const SignIn = lazy(() => import('./pages/SignIn'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -31,6 +34,7 @@ const AdminCareers = lazy(() => import('./pages/admin/AdminCareers'));
 const AdminApplicants = lazy(() => import('./pages/admin/AdminApplicants'));
 const AdminGallery = lazy(() => import('./pages/admin/AdminGallery'));
 const AdminFees = lazy(() => import('./pages/admin/AdminFees'));
+const AdminNotices = lazy(() => import('./pages/admin/AdminNotices'));
 
 // Scroll reset component on route navigation
 const ScrollToTopOnNavigate = () => {
@@ -62,14 +66,15 @@ const AppShell = () => {
           <Routes>
             <Route path={ROUTES.ADMIN_LOGIN} element={<AdminLogin />} />
             <Route path="/admin" element={<Navigate to={ROUTES.ADMIN_DASHBOARD} replace />} />
-            <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
-            <Route path={ROUTES.ADMIN_INQUIRIES} element={<AdminInquiries />} />
-            <Route path={ROUTES.ADMIN_ADMISSIONS} element={<AdminAdmissions />} />
-            <Route path={ROUTES.ADMIN_APPLICANTS} element={<AdminApplicants />} />
-            <Route path={ROUTES.ADMIN_FACULTY} element={<AdminFaculty />} />
-            <Route path={ROUTES.ADMIN_CAREERS} element={<AdminCareers />} />
-            <Route path={ROUTES.ADMIN_GALLERY} element={<AdminGallery />} />
-            <Route path={ROUTES.ADMIN_FEES} element={<AdminFees />} />
+            <Route path={ROUTES.ADMIN_DASHBOARD} element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_INQUIRIES} element={<ProtectedRoute><AdminInquiries /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_ADMISSIONS} element={<ProtectedRoute><AdminAdmissions /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_APPLICANTS} element={<ProtectedRoute><AdminApplicants /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_FACULTY} element={<ProtectedRoute><AdminFaculty /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_CAREERS} element={<ProtectedRoute><AdminCareers /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_GALLERY} element={<ProtectedRoute><AdminGallery /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_FEES} element={<ProtectedRoute><AdminFees /></ProtectedRoute>} />
+            <Route path={ROUTES.ADMIN_NOTICES} element={<ProtectedRoute><AdminNotices /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
@@ -94,6 +99,8 @@ const AppShell = () => {
             <Route path={ROUTES.CAREER} element={<Career />} />
             <Route path={ROUTES.CONTACT} element={<Contact />} />
             <Route path={ROUTES.VISION_MISSION} element={<VisionMission />} />
+            <Route path={ROUTES.NOTICES} element={<Notices />} />
+            <Route path={`${ROUTES.NOTICES}/:slug`} element={<NoticeDetail />} />
             <Route path={ROUTES.SIGN_IN} element={<SignIn />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -2,6 +2,12 @@ import { IMAGES } from '../utils/images';
 import campusImg1 from '../assets/campus_img_1.png';
 import campusImg2 from '../assets/campus_img_2.png';
 import campusImg3 from '../assets/campus_img_3.jpg';
+import campusImg4 from '../assets/campus_img_4.png';
+import campusImg5 from '../assets/campus_img_5.png';
+import campusImg6 from '../assets/campus_img_6.png';
+import campusImg7 from '../assets/campus_img_7.png';
+import campusImg8 from '../assets/campus_img_8.png';
+import campusImg9 from '../assets/campus_img_9.png';
 
 
 export const FACILITIES_CATEGORIES = [
@@ -49,7 +55,7 @@ export const FACILITIES = [
     title: "Robotics & AI Innovation Hub",
     shortDesc: "High-spec workstations, 3D printers, VR learning kits, and coding environments for AI and Robotics.",
     details: "Powered by modern microcontrollers, IoT development boards, 3D printers, and Python software suites, allowing students to prototype real-world engineering solutions.",
-    image: IMAGES.facilities.computerLab,
+    image: campusImg4,
     iconName: "Laptop",
     badge: "Next-Gen Tech"
   },
@@ -59,7 +65,7 @@ export const FACILITIES = [
     title: "Sports & Athletics Arena",
     shortDesc: "Olympic-sized swimming pool, FIFA-standard synthetic turf, indoor badminton courts, and basketball arena.",
     details: "Includes a 400m synthetic running track, floodlit tennis courts, professional gymnastics hall, karate/taekwondo dojo, and full-time certified coaches.",
-    image: IMAGES.facilities.playground,
+    image: campusImg5,
     iconName: "Trophy",
     badge: "Fitness & Athletics"
   },
@@ -69,7 +75,7 @@ export const FACILITIES = [
     title: "Aquatic Swimming Complex",
     shortDesc: "Temperature-controlled 8-lane swimming pool with separate splash pool for primary kids and lifeguard supervision.",
     details: "Maintained with automated filtration systems, certified male and female swimming coaches, and dedicated locker rooms.",
-    image: IMAGES.facilities.auditorium, // Will map to pool in images.js later if needed
+    image: campusImg6,
     iconName: "Waves",
     badge: "Aquatic Sports"
   },
@@ -79,7 +85,7 @@ export const FACILITIES = [
     title: "GPS-Tracked AC Bus Fleet",
     shortDesc: "Air-conditioned school buses equipped with real-time GPS tracking, CCTV cameras, speed governors, and trained female attendants.",
     details: "Covering 45+ city routes with parent app live tracking, speed limit alerts, first aid kits, and verified drivers.",
-    image: IMAGES.facilities.transport,
+    image: campusImg7,
     iconName: "Bus",
     badge: "Safe Commute"
   },
@@ -89,7 +95,7 @@ export const FACILITIES = [
     title: "Hygienic Organic Cafeteria & Dining",
     shortDesc: "Nutritious chef-prepared vegetarian meals, balanced diet charts, and strict hygiene protocols.",
     details: "Spacious 500-seater dining hall serving hot, balanced, nutritionist-approved meals prepared in a stainless-steel modern kitchen.",
-    image: IMAGES.facilities.cafeteria,
+    image: campusImg8,
     iconName: "Utensils",
     badge: "Healthy Dining"
   },
@@ -99,7 +105,7 @@ export const FACILITIES = [
     title: "24/7 Medical Care & Infirmary",
     shortDesc: "Resident medical officer, full-time nursing staff, 4-bed infirmary, and tie-up with nearby multi-specialty hospital.",
     details: "Fully equipped with emergency oxygen support, first aid, routine health checkup tracking, and immediate ambulance access.",
-    image: IMAGES.facilities.medicalRoom,
+    image: campusImg9,
     iconName: "HeartPulse",
     badge: "Healthcare & Safety"
   }

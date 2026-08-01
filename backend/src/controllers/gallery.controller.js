@@ -16,7 +16,7 @@ exports.createGalleryItem = async (req, res) => {
     
     // Check if an image was uploaded via Multer
     if (req.file) {
-      imagePath = req.file.path; // Cloudinary URL
+      imagePath = req.protocol + '://' + req.get('host') + '/uploads/' + req.file.filename;
     } else if (req.body.url) {
       // Fallback to manually provided URL (AdminGallery uses 'url' field)
       imagePath = req.body.url;
@@ -44,6 +44,29 @@ exports.deleteGalleryItem = async (req, res) => {
     await item.destroy();
     res.status(200).json({ success: true, message: 'Item deleted' });
   } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+exports.updateGalleryItem = async (req, res) => {
+  try {
+    const item = await Gallery.findByPk(req.params.id);
+    if (!item) {
+      return res.status(404).json({ success: false, message: 'Item not found' });
+    }
+    const { title, category, type, caption } = req.body;
+    let imagePath = item.imagePath;
+
+    if (req.file) {
+      imagePath = req.protocol + '://' + req.get('host') + '/uploads/' + req.file.filename;
+    } else if (req.body.url) {
+      imagePath = req.body.url;
+    }
+
+    await item.update({ title, category, type, caption, imagePath });
+    res.status(200).json({ success: true, data: item });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };

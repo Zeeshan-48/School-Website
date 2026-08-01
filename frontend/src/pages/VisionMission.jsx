@@ -6,6 +6,8 @@ import { PageHeader } from '../components/common/PageHeader';
 import { ROUTES } from '../utils/routes';
 import { IMAGES } from '../utils/images';
 import { LazyImage } from '../components/common/LazyImage';
+import aboutBannerImg from '../assets/about_img.png';
+import purposeImg from '../assets/purpose.jpg';
 import {
  Eye,
  Target,
@@ -124,7 +126,7 @@ export const VisionMission = () => {
  badge="Our Guiding Principles"
  title="Vision & Mission"
  subtitle="The foundational beliefs and aspirations that drive Apex International School towards educational greatness."
- bgImage={IMAGES.banners.vision}
+ bgImage={aboutBannerImg}
  />
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-16 sm:pb-24 space-y-20 sm:space-y-24">
@@ -164,9 +166,9 @@ export const VisionMission = () => {
  <motion.div variants={fadeUp} custom={2} className="relative">
  <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200/80">
  <LazyImage
-   src={IMAGES.news.cultural}
-   alt="Apex School Campus"
-   fallbackKeywords={['indian', 'school', 'campus']}
+   src={purposeImg}
+   alt="Apex School Students"
+   fallbackKeywords={['indian', 'school', 'students']}
    aspectRatio="h-80 sm:h-100 w-full"
    className="absolute inset-0"
  />

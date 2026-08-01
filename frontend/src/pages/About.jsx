@@ -34,6 +34,8 @@ const fadeUp = {
  })
 };
 
+import bannerAboutImg from '../assets/about_img.png';
+
 export const About = () => {
  return (
  <div className="bg-slate-50 text-slate-900 min-h-screen">
@@ -44,7 +46,7 @@ export const About = () => {
  badge={ABOUT_DATA.hero.badge}
  title={ABOUT_DATA.hero.title}
  subtitle={ABOUT_DATA.hero.subtitle}
- bgImage={IMAGES.banners.about}
+ bgImage={bannerAboutImg}
  />
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-16 sm:pb-24 space-y-20 sm:space-y-24">

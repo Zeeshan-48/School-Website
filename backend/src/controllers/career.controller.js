@@ -65,14 +65,19 @@ exports.createApplicant = async (req, res) => {
     let resumePath = '';
     
     if (req.file) {
-      resumePath = req.file.path; // Cloudinary URL
+      resumePath = req.protocol + '://' + req.get('host') + '/uploads/' + req.file.filename;
     } else if (req.body.resumePath) {
       resumePath = req.body.resumePath;
     }
 
-    const newApplicant = await JobApplicant.create({
-      fullName, email, phone, experience, coverLetter, jobId, resumePath
-    });
+    const applicantData = {
+      fullName, email, phone, experience, coverLetter, resumePath
+    };
+    if (jobId !== '') {
+      applicantData.jobId = jobId;
+    }
+
+    const newApplicant = await JobApplicant.create(applicantData);
     
     res.status(201).json({ success: true, data: newApplicant });
   } catch (error) {

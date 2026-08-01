@@ -113,7 +113,7 @@ export const GalleryPreview = () => {
  <h3 className="font-poppins text-lg font-bold leading-snug text-white">
  {item.title}
  </h3>
- <p className="font-inter text-xs text-white/90 line-clamp-1">
+ <p className="font-inter text-xs text-white line-clamp-1">
  {item.caption}
  </p>
  </div>
@@ -178,7 +178,7 @@ export const GalleryPreview = () => {
  <h3 className="font-poppins text-2xl font-bold text-white pt-1">
  {selectedImage.title}
  </h3>
- <p className="font-inter text-slate-300 text-base leading-relaxed">
+ <p className="font-inter text-white text-base leading-relaxed">
  {selectedImage.caption}
  </p>
  </div>

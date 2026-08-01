@@ -1,14 +1,38 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const helmet = require('helmet'); // We should install this, but for now we'll just require cors/express
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Security Headers
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
+
+// Rate Limiting (Basic DoS protection)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/api/', limiter);
+
+// CORS configuration (Restrict in production)
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : '*',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Request Logger Middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -26,6 +50,7 @@ const galleryRoutes = require('./routes/gallery.routes');
 const careerRoutes = require('./routes/career.routes');
 const admissionRoutes = require('./routes/admission.routes');
 const inquiryRoutes = require('./routes/inquiry.routes');
+const noticeRoutes = require('./routes/notice.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
@@ -34,6 +59,7 @@ app.use('/api/gallery', galleryRoutes);
 app.use('/api/careers', careerRoutes);
 app.use('/api/admissions', admissionRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/notices', noticeRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

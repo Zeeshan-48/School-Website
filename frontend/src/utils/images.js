@@ -5,6 +5,7 @@ import bannerAdmissions from '../assets/banner_admissions.png';
 import bannerGallery from '../assets/banner_gallery.png';
 import bannerFacilities from '../assets/banner_facilities.png';
 import bannerContact from '../assets/banner_contact.png';
+import modernClassroom from '../assets/modern_classroom.png';
 
 // Helper to generate Unsplash Source URLs with specific keywords
 // Note: Unsplash Source is officially deprecated and may return 503 errors.
@@ -22,13 +23,13 @@ export const IMAGES = {
   banners: {
     home: getUnsplashUrl(['indian', 'modern', 'school', 'campus'], 1920, 1080),
     about: bannerAbout,
-    vision: getUnsplashUrl(['indian', 'students', 'future', 'inspiration'], 1920, 1080),
+    vision: bannerAbout,
     facilities: bannerFacilities,
-    faculty: getUnsplashUrl(['indian', 'teachers', 'meeting', 'classroom'], 1920, 1080),
+    faculty: bannerAbout,
     academics: bannerAcademics,
     admission: bannerAdmissions,
     gallery: bannerGallery,
-    career: getUnsplashUrl(['indian', 'educators', 'collaboration'], 1920, 1080),
+    career: bannerAbout,
     contact: bannerContact
   },
   facilities: {
@@ -38,7 +39,7 @@ export const IMAGES = {
     playground: getUnsplashUrl(['indian', 'school', 'playground', 'sports']),
     auditorium: getUnsplashUrl(['indian', 'school', 'auditorium', 'event']),
     transport: getUnsplashUrl(['indian', 'school', 'bus', 'transport']),
-    smartClassroom: getUnsplashUrl(['indian', 'smart', 'classroom', 'digital']),
+    smartClassroom: modernClassroom,
     hostel: getUnsplashUrl(['indian', 'school', 'hostel', 'dormitory']),
     cafeteria: getUnsplashUrl(['indian', 'school', 'cafeteria', 'canteen']),
     medicalRoom: getUnsplashUrl(['indian', 'school', 'medical', 'room'])

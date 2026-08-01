@@ -34,7 +34,7 @@ export const AdminDashboard = () => {
         setIsLoading(false);
       }
     };
-    
+
     fetchStats();
   }, []);
 
@@ -117,7 +117,7 @@ export const AdminDashboard = () => {
     <AdminLayout title="Dashboard & Metrics Overview">
       <div className="space-y-8">
         {/* Welcome Banner */}
-        <div className="bg-gradient-to-r from-green-50 via-white to-green-50 border border-green-200 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+        <div className="bg-gradient-to-r' from-green-50 via-white to-green-50 border border-green-200 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
           <div className="relative z-10 max-w-2xl space-y-3">
             <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-[#166534] text-xs font-bold px-3 py-1 rounded-full">
               <Sparkles className="w-3.5 h-3.5" />

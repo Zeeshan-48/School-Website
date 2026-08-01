@@ -92,7 +92,7 @@ export const AdminApplicants = () => {
               placeholder="Search by applicant name, email, job title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-white border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-xs .,text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
           </div>
 
@@ -103,11 +103,10 @@ export const AdminApplicants = () => {
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
-                  statusFilter === status
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${statusFilter === status
                     ? 'bg-amber-600 text-gray-900 shadow-sm'
                     : 'bg-white text-gray-500 border border-gray-200 hover:text-gray-900'
-                }`}
+                  }`}
               >
                 {status}
               </button>
@@ -169,12 +168,11 @@ export const AdminApplicants = () => {
                         <select
                           value={app.status}
                           onChange={(e) => handleStatusChange(app.id, e.target.value)}
-                          className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border focus:outline-none cursor-pointer ${
-                            app.status === 'Shortlisted' ? 'bg-[#f0fdf4] text-[#15803d] border-green-200' :
-                            app.status === 'Under Review' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                            app.status === 'Rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' :
-                            'bg-amber-50 text-amber-700 border-amber-200'
-                          }`}
+                          className={`text-[11px] font-bold px-2.5 py-1 rounded-xl border focus:outline-none cursor-pointer ${app.status === 'Shortlisted' ? 'bg-[#f0fdf4] text-[#15803d] border-green-200' :
+                              app.status === 'Under Review' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                                app.status === 'Rejected' ? 'bg-rose-50 text-rose-700 border-rose-200' :
+                                  'bg-amber-50 text-amber-700 border-amber-200'
+                            }`}
                         >
                           <option value="Submitted">Submitted</option>
                           <option value="Shortlisted">Shortlisted</option>
@@ -218,7 +216,7 @@ export const AdminApplicants = () => {
               >
                 <button
                   onClick={() => setSelectedApplicant(null)}
-                  className="absolute right-6 top-6 text-gray-500 hover:text-white"
+                  className="absolute right-6 top-6 text-gray-500 hover:text-gray-900 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>

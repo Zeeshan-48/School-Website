@@ -11,7 +11,14 @@ exports.getAllFaculty = async (req, res) => {
 
 exports.createFaculty = async (req, res) => {
   try {
-    const newFaculty = await Faculty.create(req.body);
+    const data = { ...req.body };
+    if (typeof data.subjects === 'string') {
+      try { data.subjects = JSON.parse(data.subjects); } catch(e) {}
+    }
+    if (req.file) {
+      data.image = req.protocol + '://' + req.get('host') + '/uploads/' + req.file.filename;
+    }
+    const newFaculty = await Faculty.create(data);
     res.status(201).json({ success: true, data: newFaculty });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });
@@ -24,7 +31,14 @@ exports.updateFaculty = async (req, res) => {
     if (!faculty) {
       return res.status(404).json({ success: false, message: 'Faculty not found' });
     }
-    await faculty.update(req.body);
+    const data = { ...req.body };
+    if (typeof data.subjects === 'string') {
+      try { data.subjects = JSON.parse(data.subjects); } catch(e) {}
+    }
+    if (req.file) {
+      data.image = req.protocol + '://' + req.get('host') + '/uploads/' + req.file.filename;
+    }
+    await faculty.update(data);
     res.status(200).json({ success: true, data: faculty });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error' });

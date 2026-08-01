@@ -11,9 +11,13 @@ exports.getAllAdmissions = async (req, res) => {
 
 exports.createAdmission = async (req, res) => {
   try {
+    if (req.body.dob === '') {
+      req.body.dob = null;
+    }
     const newAdmission = await Admission.create(req.body);
     res.status(201).json({ success: true, data: newAdmission });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
