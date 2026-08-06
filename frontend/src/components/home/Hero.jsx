@@ -50,9 +50,9 @@ export const Hero = () => {
  const slide = HERO_SLIDES[currentSlide];
 
  return (
- // mt-19 perfectly offsets the navbar. 
+ // mt-[76px] perfectly offsets the navbar. 
  // lg:h-[calc(100vh-76px)] ensures it fits the remaining screen space perfectly on desktop without scrolling.
- <section className="relative w-full bg-slate-950 mt-19 lg:h-[calc(100vh-76px)] min-h-[calc(100vh-76px)] flex items-center overflow-hidden">
+ <section className="relative w-full bg-slate-950 mt-[76px] lg:h-[calc(100vh-76px)] min-h-[calc(100vh-76px)] flex items-center overflow-hidden">
 
  {/* Carousel Layer */}
  <div className="absolute inset-0 z-0">
@@ -172,7 +172,7 @@ export const Hero = () => {
  initial={{ opacity: 0, x: 30 }}
  animate={{ opacity: 1, x: 0 }}
  transition={{ duration: 0.8, delay: 0.4 }}
- className="lg:col-span-5"
+ className="hidden lg:block lg:col-span-5"
  >
  <div className="bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-white/40 shadow-2xl text-slate-900 relative group overflow-hidden">
  <div className="absolute top-0 right-0 w-32 h-32 bg-lime-400/10 rounded-full blur-2xl pointer-events-none group-hover:bg-lime-400/20 transition-colors duration-500" />

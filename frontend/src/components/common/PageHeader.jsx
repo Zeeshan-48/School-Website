@@ -7,7 +7,7 @@ export const PageHeader = ({ icon: Icon, badge, title, subtitle, bgImage, imageP
   const fallbackBg = getFallbackUrl(['indian', 'school', 'header']);
 
   return (
-    <section className="relative w-full pt-/[76px] bg-slate-950 overflow-hidden border-b border-emerald-900/40 group">
+    <section className="relative w-full pt-[76px] bg-slate-950 overflow-hidden border-b border-emerald-900/40 group">
 
       {/* Background Hero Image */}
       <div className="absolute inset-0 z-0 overflow-hidden">
