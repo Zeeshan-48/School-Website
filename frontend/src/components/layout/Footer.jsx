@@ -7,12 +7,12 @@ import schoolLogo from '../../assets/logo.png';
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#0f3d21] text-white pt-16 pb-8 border-t border-green-800">
+    <footer className="bg-[#0f3d21] text-white pt-10 sm:pt-16 pb-6 sm:pb-8 border-t border-green-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-green-800/60">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-x-4 gap-y-8 sm:gap-10 pb-8 sm:pb-12 border-b border-green-800/60">
 
           {/* Column 1 & 2: School Identity & Bio */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="col-span-2 lg:col-span-2 space-y-4">
             <Link to={ROUTES.HOME} className="flex items-center gap-3 group">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white p-1 shadow-md border border-green-700/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden">
                 <img
@@ -47,7 +47,7 @@ export const Footer = () => {
           </div>
 
           {/* Column 2: Quick Links */}
-          <div className="space-y-4">
+          <div className="col-span-1 space-y-4">
             <h4 className="font-poppins text-white text-base font-bold tracking-wider uppercase">Quick Links</h4>
             <ul className="space-y-2.5 text-sm">
               {[
@@ -68,7 +68,7 @@ export const Footer = () => {
           </div>
 
           {/* Column 3: Academic Wings */}
-          <div className="space-y-4">
+          <div className="col-span-1 space-y-4">
             <h4 className="font-poppins text-white text-base font-bold tracking-wider uppercase">Academic Wings</h4>
             <ul className="space-y-2.5 text-sm text-green-100/80">
               <li>
@@ -93,7 +93,7 @@ export const Footer = () => {
           </div>
 
           {/* Column 4: Contact & Location */}
-          <div className="space-y-4">
+          <div className="col-span-2 lg:col-span-1 space-y-4 mt-2 sm:mt-0">
             <h4 className="font-poppins text-white text-base font-bold tracking-wider uppercase">Contact Us</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3 text-green-100/80">
@@ -113,7 +113,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-3 text-green-100/80">
                 <Mail className="w-4 h-4 text-[#22C55E] shrink-0" />
-                <span>{SCHOOL_INFO.email}</span>
+                <span className="break-all">{SCHOOL_INFO.email}</span>
               </li>
             </ul>
           </div>
@@ -121,9 +121,9 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar Copyright */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-green-200/70 gap-4 text-center">
+        <div className="pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between text-[11px] sm:text-xs text-green-200/70 gap-4 text-center">
           {/* Left: Copyright */}
-          <p className="md:w-1/3 md:text-left">
+          <p className="md:w-1/3 md:text-left leading-relaxed">
             © {new Date().getFullYear()} {SCHOOL_INFO.name}. All Rights Reserved.
           </p>
 
@@ -141,7 +141,7 @@ export const Footer = () => {
           </div>
 
           {/* Right: Legal Links */}
-          <div className="md:w-1/3 flex items-center justify-center md:justify-end gap-6">
+          <div className="md:w-1/3 flex flex-wrap items-center justify-center md:justify-end gap-4 sm:gap-6 mt-2 md:mt-0">
             <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>

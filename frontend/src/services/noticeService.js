@@ -1,12 +1,10 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/notices'; // adjust base url if needed based on existing services
+import api from './api';
 
 // --- PUBLIC APIs ---
 
 export const getPublicNotices = async (params = {}) => {
   try {
-    const response = await axios.get(`${API_URL}/public`, { params });
+    const response = await api.get(`/notices/public`, { params });
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -15,7 +13,7 @@ export const getPublicNotices = async (params = {}) => {
 
 export const getNoticeBySlug = async (slug) => {
   try {
-    const response = await axios.get(`${API_URL}/slug/${slug}`);
+    const response = await api.get(`/notices/slug/${slug}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -24,7 +22,7 @@ export const getNoticeBySlug = async (slug) => {
 
 export const getPopupNotice = async () => {
   try {
-    const response = await axios.get(`${API_URL}/popup`);
+    const response = await api.get(`/notices/popup`);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -35,7 +33,7 @@ export const getPopupNotice = async () => {
 
 export const getAllNotices = async (params = {}) => {
   try {
-    const response = await axios.get(API_URL, { params });
+    const response = await api.get('/notices', { params });
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -44,7 +42,7 @@ export const getAllNotices = async (params = {}) => {
 
 export const getNoticeById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/${id}`);
+    const response = await api.get(`/notices/${id}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -53,7 +51,7 @@ export const getNoticeById = async (id) => {
 
 export const createNotice = async (formData) => {
   try {
-    const response = await axios.post(API_URL, formData, {
+    const response = await api.post('/notices', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -66,7 +64,7 @@ export const createNotice = async (formData) => {
 
 export const updateNotice = async (id, formData) => {
   try {
-    const response = await axios.put(`${API_URL}/${id}`, formData, {
+    const response = await api.put(`/notices/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -79,7 +77,7 @@ export const updateNotice = async (id, formData) => {
 
 export const deleteNotice = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/${id}`);
+    const response = await api.delete(`/notices/${id}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -88,7 +86,7 @@ export const deleteNotice = async (id) => {
 
 export const bulkActionNotices = async (action, ids) => {
   try {
-    const response = await axios.post(`${API_URL}/bulk-action`, { action, ids });
+    const response = await api.post(`/notices/bulk-action`, { action, ids });
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

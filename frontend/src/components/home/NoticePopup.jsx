@@ -12,15 +12,15 @@ export const NoticePopup = () => {
 
   useEffect(() => {
     // Check if user requested to hide popup today
-    const lastDismissed = localStorage.getItem('noticePopupDismissedAt');
-    if (lastDismissed) {
-      const dismissedDate = new Date(parseInt(lastDismissed));
-      const now = new Date();
-      // If within 24 hours
-      if (now - dismissedDate < 24 * 60 * 60 * 1000) {
-        return; // Don't show
-      }
-    }
+    // const lastDismissed = localStorage.getItem('noticePopupDismissedAt');
+    // if (lastDismissed) {
+    //   const dismissedDate = new Date(parseInt(lastDismissed));
+    //   const now = new Date();
+    //   // If within 24 hours
+    //   if (now - dismissedDate < 24 * 60 * 60 * 1000) {
+    //     return; // Don't show
+    //   }
+    // }
 
     const fetchPopup = async () => {
       try {
