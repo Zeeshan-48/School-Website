@@ -13,7 +13,7 @@ const startServer = async () => {
     await testConnection();
 
     // Sync models (in development, alter is fine. Remove for production)
-    await sequelize.sync({ alter: true }); 
+    await sequelize.sync(); 
     
     // Seed initial admin if not exists
     await seedAdmin();

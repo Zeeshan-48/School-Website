@@ -189,7 +189,7 @@ export const AdminFaculty = () => {
         {isLoading ? (
           <div className="flex justify-center py-20 text-gray-500">Loading faculty...</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {filteredFaculty.map((member) => (
               <motion.div
                 key={member.id}

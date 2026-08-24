@@ -51,8 +51,8 @@ export const Hero = () => {
 
     return (
         // mt-[76px] perfectly offsets the navbar. 
-        // lg:h-[400px] ensures a very slim banner profile.
-        <section className="relative w-full bg-slate-950 mt-[76px] lg:h-[400px] min-h-[50vh] sm:min-h-[55vh] md:min-h-[400px] lg:min-h-[400px] xl:h-[450px] xl:min-h-[450px] flex items-center overflow-hidden">
+        // min-h-[43vh] for mobile, lg:min-h-[calc(100vh-76px)] ensures a full screen banner profile on laptops.
+        <section className="relative w-full bg-slate-950 mt-[76px] min-h-[43vh] lg:min-h-[calc(100vh-76px)] flex items-center overflow-hidden">
 
             {/* Carousel Layer */}
             <div className="absolute inset-0 z-0">

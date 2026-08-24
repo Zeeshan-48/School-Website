@@ -216,6 +216,33 @@ export const Contact = () => {
  {/* Direct Contact Directory Info */}
  <motion.div variants={fadeUp} custom={1} className="lg:col-span-5 space-y-6">
  
+ {/* Office Timings Card */}
+ <div className="bg-[#071F10] text-white rounded-3xl p-8 sm:p-10 border border-emerald-800 shadow-xl space-y-6 relative overflow-hidden">
+ <h3 className="font-poppins text-xl font-bold text-white flex items-center gap-3 relative z-10">
+ <div className="w-10 h-10 rounded-xl bg-emerald-900 text-lime-400 flex items-center justify-center border border-emerald-700/50">
+ <Clock className="w-5 h-5" />
+ </div>
+ <span>Administrative Office</span>
+ </h3>
+
+ <div className="space-y-3 font-inter text-sm text-green-100/90 relative z-10">
+ <div className="flex justify-between py-2 border-b border-emerald-900/60">
+ <span>Monday - Friday</span>
+ <span className="font-bold text-white">8:00 AM - 4:00 PM</span>
+ </div>
+ <div className="flex justify-between py-2 border-b border-emerald-900/60">
+ <span>Saturday</span>
+ <span className="font-bold text-white">8:30 AM - 1:30 PM</span>
+ </div>
+ <div className="flex justify-between py-2 text-lime-300">
+ <span>Sunday & Public Holidays</span>
+ <span className="font-bold">Closed</span>
+ </div>
+ </div>
+ 
+ <div className="absolute -bottom-16 -right-16 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+ </div>
+
  {/* Address Card */}
  <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-md space-y-6 hover:shadow-lg transition-shadow">
  <h3 className="font-poppins text-xl font-bold text-slate-900 flex items-center gap-3">
@@ -252,33 +279,6 @@ export const Contact = () => {
  <span className="font-medium">{SCHOOL_INFO.email}</span>
  </div>
  </div>
- </div>
-
- {/* Office Timings Card */}
- <div className="bg-[#071F10] text-white rounded-3xl p-8 sm:p-10 border border-emerald-800 shadow-xl space-y-6 relative overflow-hidden">
- <h3 className="font-poppins text-xl font-bold text-white flex items-center gap-3 relative z-10">
- <div className="w-10 h-10 rounded-xl bg-emerald-900 text-lime-400 flex items-center justify-center border border-emerald-700/50">
- <Clock className="w-5 h-5" />
- </div>
- <span>Administrative Office</span>
- </h3>
-
- <div className="space-y-3 font-inter text-sm text-green-100/90 relative z-10">
- <div className="flex justify-between py-2 border-b border-emerald-900/60">
- <span>Monday - Friday</span>
- <span className="font-bold text-white">8:00 AM - 4:00 PM</span>
- </div>
- <div className="flex justify-between py-2 border-b border-emerald-900/60">
- <span>Saturday</span>
- <span className="font-bold text-white">8:30 AM - 1:30 PM</span>
- </div>
- <div className="flex justify-between py-2 text-lime-300">
- <span>Sunday & Public Holidays</span>
- <span className="font-bold">Closed</span>
- </div>
- </div>
- 
- <div className="absolute -bottom-16 -right-16 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
  </div>
 
  </motion.div>

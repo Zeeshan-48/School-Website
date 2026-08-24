@@ -167,74 +167,97 @@ export const AdminNotices = () => {
             </motion.div>
           )}
 
-          {/* Data Table */}
-          <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-wider">
-                    <th className="px-4 py-3 w-10">
-                      <input type="checkbox" checked={notices.length > 0 && selectedIds.length === notices.length} onChange={selectAll} className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
-                    </th>
-                    <th className="px-4 py-3 font-medium">Title & Category</th>
-                    <th className="px-4 py-3 font-medium">Dates</th>
-                    <th className="px-4 py-3 font-medium">Tags</th>
-                    <th className="px-4 py-3 font-medium">Status</th>
-                    <th className="px-4 py-3 font-medium text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 text-sm">
-                  {isLoading ? (
-                    <tr><td colSpan="6" className="px-4 py-8 text-center text-slate-500">Loading notices...</td></tr>
-                  ) : notices.length === 0 ? (
-                    <tr><td colSpan="6" className="px-4 py-8 text-center text-slate-500">No notices found.</td></tr>
-                  ) : (
-                    notices.map(notice => (
-                      <tr key={notice.id} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="px-4 py-3">
-                          <input type="checkbox" checked={selectedIds.includes(notice.id)} onChange={() => toggleSelection(notice.id)} className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
-                        </td>
-                        <td className="px-4 py-3">
-                          <p className="font-semibold text-slate-900 line-clamp-1">{notice.title}</p>
-                          <p className="text-xs text-slate-500">{notice.category} • {notice.priority}</p>
-                        </td>
-                        <td className="px-4 py-3 text-slate-600 text-xs">
-                          <p>Pub: {new Date(notice.publishDate).toLocaleDateString()}</p>
-                          {notice.expiryDate && <p className="text-slate-400">Exp: {new Date(notice.expiryDate).toLocaleDateString()}</p>}
-                        </td>
-                        <td className="px-4 py-3 flex gap-2">
-                          {notice.showPopup && <span className="px-2 py-1 bg-purple-50 text-purple-600 rounded text-[10px] font-bold uppercase">Popup</span>}
-                          {notice.featured && <span className="px-2 py-1 bg-amber-50 text-amber-600 rounded text-[10px] font-bold uppercase">Featured</span>}
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${notice.status === 'Active' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'}`}>
-                            {notice.status === 'Active' ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
-                            {notice.status}
+          {/* Data Grid */}
+          <div className="bg-white/50 border border-slate-200 rounded-xl shadow-sm overflow-hidden p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <label className="flex items-center gap-2 text-sm font-medium text-slate-600 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={notices.length > 0 && selectedIds.length === notices.length} 
+                  onChange={selectAll} 
+                  className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4" 
+                />
+                Select All
+              </label>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {isLoading ? (
+                <div className="col-span-full py-20 text-center text-slate-500">Loading notices...</div>
+              ) : notices.length === 0 ? (
+                <div className="col-span-full py-20 text-center text-slate-500">No notices found.</div>
+              ) : (
+                notices.map(notice => (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    key={notice.id} 
+                    className={`bg-white border rounded-2xl p-5 shadow-sm hover:shadow-md transition-all relative flex flex-col justify-between ${
+                      selectedIds.includes(notice.id) ? 'border-emerald-500 ring-1 ring-emerald-500' : 'border-slate-200 hover:border-emerald-300'
+                    }`}
+                  >
+                    <div className="absolute top-4 right-4 z-10">
+                      <input 
+                        type="checkbox" 
+                        checked={selectedIds.includes(notice.id)} 
+                        onChange={() => toggleSelection(notice.id)} 
+                        className="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4 cursor-pointer" 
+                      />
+                    </div>
+                    
+                    <div className="space-y-4 pr-8">
+                      <div>
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
+                            {notice.category}
                           </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <div className="flex items-center justify-end gap-2">
-                            <button onClick={() => openEditForm(notice)} className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Edit">
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-                            <button onClick={() => handleDelete(notice.id)} className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete">
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                          {notice.showPopup && <span className="px-2 py-0.5 bg-purple-50 text-purple-600 rounded text-[10px] font-bold uppercase border border-purple-100">Popup</span>}
+                          {notice.featured && <span className="px-2 py-0.5 bg-amber-50 text-amber-600 rounded text-[10px] font-bold uppercase border border-amber-100">Featured</span>}
+                        </div>
+                        <h3 className="font-bold text-slate-900 text-base leading-tight line-clamp-2">{notice.title}</h3>
+                        <p className="text-[11px] font-medium text-slate-500 mt-1">Priority: {notice.priority}</p>
+                      </div>
+
+                      <div className="text-xs text-slate-600 space-y-1.5 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        <p className="flex justify-between">
+                          <span className="text-slate-400">Published:</span>
+                          <span className="font-medium text-slate-700">{new Date(notice.publishDate).toLocaleDateString()}</span>
+                        </p>
+                        {notice.expiryDate && (
+                          <p className="flex justify-between">
+                            <span className="text-slate-400">Expires:</span>
+                            <span className="font-medium text-slate-700">{new Date(notice.expiryDate).toLocaleDateString()}</span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
+                      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${notice.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-slate-100 text-slate-600 border border-slate-200'}`}>
+                        {notice.status === 'Active' ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
+                        {notice.status}
+                      </span>
+                      
+                      <div className="flex items-center gap-1.5 relative z-10">
+                        <button onClick={() => openEditForm(notice)} className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors border border-transparent hover:border-emerald-100" title="Edit">
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleDelete(notice.id)} className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100" title="Delete">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              )}
             </div>
 
-            {/* Pagination Placeholder (Basic implementation) */}
-            <div className="px-4 py-3 border-t border-slate-200 flex items-center justify-between text-sm text-slate-500">
+            {/* Pagination Placeholder */}
+            <div className="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
               <p>Showing {notices.length} of {totalItems} entries</p>
               <div className="flex gap-2">
-                <button disabled={page === 1} onClick={() => setPage(p => p - 1)} className="px-3 py-1 border border-slate-200 rounded hover:bg-slate-50 disabled:opacity-50">Prev</button>
-                <button disabled={page * limit >= totalItems} onClick={() => setPage(p => p + 1)} className="px-3 py-1 border border-slate-200 rounded hover:bg-slate-50 disabled:opacity-50">Next</button>
+                <button disabled={page === 1} onClick={() => setPage(p => p - 1)} className="px-3 py-1.5 border border-slate-200 rounded-lg hover:bg-white bg-slate-50 disabled:opacity-50 font-medium cursor-pointer">Prev</button>
+                <button disabled={page * limit >= totalItems} onClick={() => setPage(p => p + 1)} className="px-3 py-1.5 border border-slate-200 rounded-lg hover:bg-white bg-slate-50 disabled:opacity-50 font-medium cursor-pointer">Next</button>
               </div>
             </div>
           </div>

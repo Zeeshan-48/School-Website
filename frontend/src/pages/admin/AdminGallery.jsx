@@ -10,7 +10,6 @@ import {
   Edit2,
   Trash2,
   X,
-  Video,
   AlertCircle
 } from 'lucide-react';
 
@@ -138,7 +137,7 @@ export const AdminGallery = () => {
             <Search className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search photo/video title..."
+              placeholder="Search photo title..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-white border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-xs .text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -266,56 +265,29 @@ export const AdminGallery = () => {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-gray-600 mb-1">Category</label>
-                      <select
-                        value={formData.category}
-                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none cursor-pointer"
-                      >
-                        <option value="sports">Sports Meet</option>
-                        <option value="academics">STEM & Science</option>
-                        <option value="events">Cultural & Events</option>
-                        <option value="campus">Campus Life</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-600 mb-1">Media Type</label>
-                      <select
-                        value={formData.type}
-                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                        className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none cursor-pointer"
-                      >
-                        <option value="image">Photo Image</option>
-                        <option value="video">Video Embed</option>
-                      </select>
-                    </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-600 mb-1">Category</label>
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none cursor-pointer"
+                    >
+                      <option value="sports">Sports Meet</option>
+                      <option value="academics">STEM & Science</option>
+                      <option value="events">Cultural & Events</option>
+                      <option value="campus">Campus Life</option>
+                    </select>
                   </div>
 
-                  {formData.type === 'image' ? (
-                    <div>
-                      <label className="block text-xs font-bold text-gray-600 mb-1">Upload Photo Image</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setSelectedFile(e.target.files[0])}
-                        className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                      />
-                    </div>
-                  ) : (
-                    <div>
-                      <label className="block text-xs font-bold text-gray-600 mb-1">YouTube Embed URL</label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.url}
-                        onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                        placeholder="https://www.youtube.com/embed/..."
-                        className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                      />
-                    </div>
-                  )}
+                  <div>
+                    <label className="block text-xs font-bold text-gray-600 mb-1">Upload Photo Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setSelectedFile(e.target.files[0])}
+                      className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    />
+                  </div>
 
                   <div>
                     <label className="block text-xs font-bold text-gray-600 mb-1">Caption / Description</label>

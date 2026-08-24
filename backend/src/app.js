@@ -11,20 +11,20 @@ app.use(helmet({
   crossOriginResourcePolicy: false,
 }));
 
-// Rate Limiting (Basic DoS protection)
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.'
-});
-app.use('/api/', limiter);
-
 // CORS configuration (Restrict in production)
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : '*',
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+
+// Rate Limiting (Basic DoS protection)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // limit each IP to 1000 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/api/', limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

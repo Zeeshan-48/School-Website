@@ -11,7 +11,8 @@ exports.getAllInquiries = async (req, res) => {
 
 exports.createInquiry = async (req, res) => {
   try {
-    const newInquiry = await Inquiry.create(req.body);
+    const { fullName, email, phone, subject, message } = req.body;
+    const newInquiry = await Inquiry.create({ fullName, email, phone, subject, message });
     res.status(201).json({ success: true, data: newInquiry });
   } catch (error) {
     console.error(error);

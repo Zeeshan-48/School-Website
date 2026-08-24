@@ -21,10 +21,14 @@ exports.login = async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid credentials.' });
     }
 
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ success: false, message: 'Server configuration error. JWT secret missing.' });
+    }
+
     // Generate JWT
     const token = jwt.sign(
       { id: admin.id, username: admin.username },
-      process.env.JWT_SECRET || 'your_super_secret_jwt_key_here',
+      process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 

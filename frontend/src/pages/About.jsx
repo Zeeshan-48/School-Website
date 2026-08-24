@@ -63,7 +63,7 @@ export const About = () => {
  subtitle="The fundamental principles that guide our pedagogy, student development, and school community."
  theme="dark"
  />
- <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+ <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
  {ABOUT_DATA.coreValues.map((value, idx) => {
  const IconComp = ICON_MAP[value.iconName] || Award;
  return (

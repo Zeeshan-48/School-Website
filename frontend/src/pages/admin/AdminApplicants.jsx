@@ -128,10 +128,9 @@ export const AdminApplicants = () => {
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-white border-b border-gray-200 text-gray-500 font-bold uppercase tracking-wider">
-                    <th className="p-4">Candidate & ID</th>
-                    <th className="p-4">Applied Job Title</th>
-                    <th className="p-4">Experience</th>
-                    <th className="p-4">Contact Info</th>
+                    <th className="p-4">Applicant ID & Name</th>
+                    <th className="p-4">Applied Role</th>
+                    <th className="p-4">Contact & Experience</th>
                     <th className="p-4">Status</th>
                     <th className="p-4 text-right">Actions</th>
                   </tr>
@@ -144,25 +143,20 @@ export const AdminApplicants = () => {
                           onClick={() => setSelectedApplicant(app)}
                           className="cursor-pointer space-y-0.5"
                         >
-                          <span className="font-extrabold text-sm text-gray-900 block hover:text-amber-400 transition-colors">
+                          <span className="font-extrabold text-sm text-gray-900 block hover:text-amber-700 transition-colors">
                             {app.fullName}
                           </span>
                           <span className="text-[10px] text-gray-500 font-mono">ID: {app.id}</span>
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="font-bold text-amber-700 bg-amber-50/80 border border-amber-200 px-2.5 py-1 rounded-lg">
+                        <span className="font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
                           {app.job?.title || 'Unknown Job'}
                         </span>
                       </td>
-                      <td className="p-4">
-                        <span className="font-medium text-gray-600">
-                          {app.experience}
-                        </span>
-                      </td>
                       <td className="p-4 space-y-0.5">
-                        <div className="text-gray-700">{app.email}</div>
-                        <div className="text-[10px] text-gray-500">{app.phone}</div>
+                        <div className="font-semibold text-gray-700">{app.email}</div>
+                        <div className="text-[10px] text-gray-500">{app.phone} | {app.experience}</div>
                       </td>
                       <td className="p-4">
                         <select
@@ -190,7 +184,8 @@ export const AdminApplicants = () => {
                           </button>
                           <button
                             onClick={() => setDeleteConfirmId(app.id)}
-                            className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                            aria-label="Delete applicant"
+                            className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>

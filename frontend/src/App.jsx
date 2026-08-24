@@ -22,6 +22,8 @@ const VisionMission = lazy(() => import('./pages/VisionMission'));
 const Notices = lazy(() => import('./pages/Notices'));
 const NoticeDetail = lazy(() => import('./pages/NoticeDetail'));
 const SignIn = lazy(() => import('./pages/SignIn'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Lazy Load Admin CMS Pages
@@ -102,6 +104,8 @@ const AppShell = () => {
             <Route path={ROUTES.NOTICES} element={<Notices />} />
             <Route path={`${ROUTES.NOTICES}/:slug`} element={<NoticeDetail />} />
             <Route path={ROUTES.SIGN_IN} element={<SignIn />} />
+            <Route path={ROUTES.PRIVACY} element={<PrivacyPolicy />} />
+            <Route path={ROUTES.TERMS} element={<TermsOfService />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

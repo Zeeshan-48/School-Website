@@ -54,7 +54,7 @@ export const AboutSchool = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.4 }}
-                            className="absolute -bottom-6 -right-1 sm:-right-4 z-20 bg-[#071F10] text-white p-4 sm:p-5 rounded-2xl shadow-xl max-w-[240px] sm:max-w-64 border border-emerald-900"
+                            className="absolute -bottom-6 -right-1 sm:-right-4 z-20 bg-[#071F10] text-white p-4 sm:p-5 rounded-2xl shadow-xl max-w-[/240px] sm:max-w-64 border border-emerald-900"
                         >
                             <div className="flex items-start gap-3">
                                 <div className="p-2 sm:p-2.5 bg-[#166534] text-lime-400 rounded-xl shadow-inner border border-emerald-700 shrink-0">

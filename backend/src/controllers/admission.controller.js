@@ -11,10 +11,16 @@ exports.getAllAdmissions = async (req, res) => {
 
 exports.createAdmission = async (req, res) => {
   try {
-    if (req.body.dob === '') {
-      req.body.dob = null;
+    const { studentName, gender, dob, grade, parentName, email, phone, address, transportRequired } = req.body;
+    const admissionData = { studentName, gender, grade, parentName, email, phone, address, transportRequired };
+    
+    if (dob && dob !== '') {
+      admissionData.dob = dob;
+    } else {
+      admissionData.dob = null;
     }
-    const newAdmission = await Admission.create(req.body);
+    
+    const newAdmission = await Admission.create(admissionData);
     res.status(201).json({ success: true, data: newAdmission });
   } catch (error) {
     console.error(error);

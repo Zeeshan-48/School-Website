@@ -112,7 +112,7 @@ export const Notices = () => {
 
         {/* Notices Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map(i => (
               <div key={i} className="bg-white rounded-2xl shadow-sm border border-slate-200 h-80 animate-pulse flex flex-col">
                 <div className="h-40 bg-slate-200 rounded-t-2xl"></div>
@@ -144,7 +144,7 @@ export const Notices = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {notices.map((notice, index) => (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}

@@ -104,7 +104,7 @@ export const AdminAdmissions = () => {
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${statusFilter === status
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${statusFilter === status
                   ? 'bg-blue-600 text-gray-900 shadow-sm'
                   : 'bg-white text-gray-500 border border-gray-200 hover:text-gray-900'
                   }`}
@@ -192,7 +192,8 @@ export const AdminAdmissions = () => {
                           </button>
                           <button
                             onClick={() => setDeleteConfirmId(app.id)}
-                            className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                            aria-label="Delete application"
+                            className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>

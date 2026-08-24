@@ -126,7 +126,15 @@ export const AdminLayout = ({ children, title }) => {
           <span className="font-bold text-sm text-gray-900">Apex Admin Panel</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <Link
+            to={ROUTES.HOME}
+            target="_blank"
+            className="p-2 rounded-lg text-[#15803d] hover:bg-green-50 transition-colors"
+            title="View Live Website"
+          >
+            <ExternalLink className="w-5 h-5" />
+          </Link>
           <button
             onClick={handleLogout}
             className="p-2 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors"

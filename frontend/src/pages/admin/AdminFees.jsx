@@ -95,7 +95,7 @@ export default function AdminFees() {
             <div key={fee.grade} className="space-y-4 .pb-8 border-b border-gray-100 last:border-0 last:pb-0">
               <h4 className="font-extrabold text-gray-900 text-md">{fee.grade}</h4>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Tuition Fee */}
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-gray-700">Tuition Fee (Per Term)</label>

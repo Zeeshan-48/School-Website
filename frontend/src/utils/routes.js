@@ -9,6 +9,8 @@ export const ROUTES = {
   CAREER: '/career',
   CONTACT: '/contact',
   VISION_MISSION: '/vision-mission',
+  PRIVACY: '/privacy',
+  TERMS: '/terms',
   SIGN_IN: '/signin',
   ADMIN_LOGIN: '/admin/login',
   ADMIN_DASHBOARD: '/admin/dashboard',

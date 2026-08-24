@@ -127,7 +127,7 @@ export const AdminDashboard = () => {
               Welcome to your School Admin Desk
             </h2>
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-              Manage your dynamic website pages (**Faculty**, **Career**, **Admissions**, **Gallery**), review **Job Applicants**, and respond to parent inquiry messages.
+              Manage your dynamic website pages (Faculty, Career, Admissions, Gallery), review Job Applicants, and respond to parent inquiry messages.
             </p>
           </div>
           <div className="absolute right-4 bottom-0 opacity-10 pointer-events-none">
@@ -142,7 +142,7 @@ export const AdminDashboard = () => {
             <p className="text-gray-500 font-medium">Loading Dashboard Statistics...</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {stats.map((item, idx) => {
               const Icon = item.icon;
               return (
@@ -151,34 +151,34 @@ export const AdminDashboard = () => {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.08 }}
-                  className={`transition-all bg-white border-gray-200 border rounded-3xl p-6 shadow-lg flex flex-col justify-between group cursor-pointer ${item.hoverBorder}`}
+                  className={`transition-all bg-white border-gray-200 border rounded-xl sm:rounded-3xl p-2.5 sm:p-6 shadow-lg flex flex-col justify-between group cursor-pointer ${item.hoverBorder}`}
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`p-3 rounded-2xl border shadow-inner group-hover:scale-110 transition-transform ${item.iconColor}`}>
-                        <Icon className="w-6 h-6" />
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-4 gap-2">
+                      <div className={`p-2 sm:p-3 rounded-xl sm:rounded-2xl border shadow-inner group-hover:scale-110 transition-transform ${item.iconColor}`}>
+                        <Icon className="w-4 h-4 sm:w-6 sm:h-6" />
                       </div>
-                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${item.badgeColor}`}>
+                      <span className={`text-[8px] sm:text-[11px] font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-center leading-tight ${item.badgeColor}`}>
                         {item.badge}
                       </span>
                     </div>
-                    <h3 className="text-xs font-bold text-black uppercase tracking-wider">
+                    <h3 className="text-[9px] sm:text-xs font-bold text-black uppercase tracking-wider line-clamp-2 leading-tight">
                       {item.title}
                     </h3>
-                    <p className="text-3xl sm:text-4xl font-extrabold text-black font-poppins mt-1">
+                    <p className="text-xl sm:text-4xl font-extrabold text-black font-poppins mt-1 sm:mt-2">
                       {item.count}
                     </p>
                   </div>
 
-                  <div className="pt-6 border-t border-gray-100 mt-6 flex items-center justify-between">
-                    <span className={`text-xs font-semibold text-black transition-colors ${item.hoverText}`}>
+                  <div className="pt-2 sm:pt-6 border-t border-gray-100 mt-2 sm:mt-6 flex items-center justify-between">
+                    <span className={`hidden sm:block text-xs font-semibold text-black transition-colors ${item.hoverText}`}>
                       Manage Module
                     </span>
                     <Link
                       to={item.path}
-                      className={`w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 group-hover:text-white transition-all ${item.hoverBtn}`}
+                      className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-600 group-hover:text-white transition-all ml-auto ${item.hoverBtn}`}
                     >
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
                     </Link>
                   </div>
                 </motion.div>

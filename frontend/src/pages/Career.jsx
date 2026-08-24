@@ -174,9 +174,6 @@ export const Career = () => {
  {/* 2. Open Vacancies Directory */}
  <motion.section 
  id="current-openings"
- initial="hidden"
- whileInView="visible"
- viewport={{ once: true, amount: 0.1 }}
  >
  <SectionTitle
  badge="Current Openings"
@@ -194,6 +191,9 @@ export const Career = () => {
  key={job.id}
  variants={fadeUp}
  custom={idx}
+ initial="hidden"
+ whileInView="visible"
+ viewport={{ once: true, margin: "-50px" }}
  className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md hover:shadow-xl hover:border-[#166534] transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group hover:-translate-y-1"
  >
  <div className="space-y-3 max-w-2xl">
@@ -276,7 +276,7 @@ export const Career = () => {
  theme="dark"
  />
 
- <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+ <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
  {WORKPLACE_BENEFITS.map((benefit, idx) => {
  const IconComp = ICON_MAP[benefit.icon] || Award;
  return (

@@ -113,90 +113,106 @@ export const AdminInquiries = () => {
           </div>
         </div>
 
-        {/* Messages List Table / Grid */}
-        <div className="glass-nav border border-gray-200 rounded-3xl overflow-hidden shadow-xl">
-          {isLoading ? (
-            <div className="flex justify-center py-20 text-gray-500">Loading inquiries...</div>
-          ) : filteredInquiries.length === 0 ? (
-            <div className="p-12 text-center space-y-3">
-              <MessageSquare className="w-12 h-12 text-slate-600 mx-auto" />
-              <p className="text-gray-500 text-sm font-semibold">No inquiries found matching your filters.</p>
-            </div>
-          ) : (
-            <div className="divide-y divide-gray-200">
-              {filteredInquiries.map((inq) => (
-                <div
-                  key={inq.id}
-                  className={`p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-green-50 transition-colors ${inq.status === 'New' ? 'bg-white/40 border-l-4 border-l-emerald-500' : ''
-                    }`}
-                >
-                  <div
-                    onClick={() => setSelectedInquiry(inq)}
-                    className="flex-1 space-y-1.5 cursor-pointer"
-                  >
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <span className="font-bold text-sm text-gray-900">{inq.fullName}</span>
-                      <span className="text-xs text-gray-500 font-mono">({inq.email})</span>
-                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${inq.status === 'New'
-                        ? 'bg-green-100 text-[#166534] border border-green-200'
-                        : 'bg-gray-100 text-gray-600'
-                        }`}>
-                        {inq.status}
-                      </span>
+        {/* Messages Grid */}
+        {isLoading ? (
+          <div className="flex justify-center py-20 text-gray-500">Loading inquiries...</div>
+        ) : filteredInquiries.length === 0 ? (
+          <div className="glass-nav border border-gray-200 rounded-3xl p-12 text-center space-y-3 shadow-xl">
+            <MessageSquare className="w-12 h-12 text-slate-600 mx-auto" />
+            <p className="text-gray-500 text-sm font-semibold">No inquiries found matching your filters.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {filteredInquiries.map((inq) => (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                key={inq.id}
+                className={`glass-nav border rounded-3xl p-6 shadow-xl flex flex-col justify-between relative group hover:border-emerald-500/60 transition-all ${
+                  inq.status === 'New' ? 'border-emerald-200 bg-emerald-50/30' : 'border-gray-200 bg-white'
+                }`}
+              >
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold shrink-0 shadow-inner">
+                        {inq.fullName.charAt(0)}
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 text-sm leading-tight line-clamp-1">{inq.fullName}</h3>
+                        <p className="text-[10px] text-gray-500 font-mono line-clamp-1">{inq.email}</p>
+                      </div>
                     </div>
-
-                    <div className="flex items-center gap-2 text-xs font-semibold text-[#166534]">
-                      <span>Subject: {inq.subject}</span>
-                    </div>
-
-                    <p className="text-xs text-gray-600 line-clamp-2 max-w-3xl leading-relaxed">
-                      "{inq.message}"
-                    </p>
-
-                    <div className="text-[10px] text-gray-500 pt-1 flex items-center gap-3">
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-gray-500" />
-                        Received: {new Date(inq.createdAt).toLocaleString()}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Phone className="w-3 h-3 text-gray-500" />
-                        {inq.phone}
-                      </span>
-                    </div>
+                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 shadow-sm ${inq.status === 'New'
+                      ? 'bg-[#f0fdf4] text-[#166534] border border-green-200'
+                      : 'bg-gray-100 text-gray-600 border border-gray-200'
+                      }`}>
+                      {inq.status}
+                    </span>
                   </div>
 
-                  {/* Actions */}
-                  <div className="flex items-center gap-2 shrink-0 self-end sm:self-center pt-2 sm:pt-0">
+                  <div className="space-y-1.5 bg-slate-50 p-3 rounded-2xl border border-gray-100 cursor-pointer hover:border-emerald-200 transition-colors" onClick={() => setSelectedInquiry(inq)}>
+                    <div className="flex items-center gap-2 text-xs font-bold text-gray-900">
+                      <span className="line-clamp-1">Subj: {inq.subject}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed italic">
+                      "{inq.message}"
+                    </p>
+                  </div>
+
+                  <div className="text-[10px] text-gray-500 flex flex-col gap-1.5">
+                    <span className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      Received: {new Date(inq.createdAt).toLocaleString()}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      {inq.phone}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Actions Footer */}
+                <div className="pt-4 border-t border-gray-200 mt-4 flex items-center justify-between">
+                  <button
+                    onClick={() => setSelectedInquiry(inq)}
+                    className="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    Read More
+                  </button>
+                  <div className="flex items-center gap-2">
                     {inq.status === 'New' ? (
                       <button
                         onClick={() => handleStatusChange(inq.id, 'Responded')}
-                        className="px-3 py-1.5 bg-emerald-600/20 text-[#166534] border border-green-200 hover:bg-[#15803d] hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                        className="p-1.5 bg-emerald-50 text-[#166534] hover:bg-emerald-600 hover:text-white rounded-xl transition-colors shadow-sm border border-emerald-100"
+                        title="Mark Responded"
                       >
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Mark Responded</span>
+                        <CheckCircle2 className="w-4 h-4" />
                       </button>
                     ) : (
                       <button
                         onClick={() => handleStatusChange(inq.id, 'New')}
-                        className="px-3 py-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                        className="p-1.5 bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-900 rounded-xl transition-colors border border-gray-200"
+                        title="Mark Unread"
                       >
-                        Mark Unread
+                        <CheckCircle2 className="w-4 h-4" />
                       </button>
                     )}
-
                     <button
                       onClick={() => setDeleteConfirmId(inq.id)}
-                      className="p-2 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
-                      title="Delete Inquiry"
+                      className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-100 rounded-xl transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
+                      title="Delete"
+                      aria-label="Delete inquiry"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Modal: View Full Inquiry Detail */}
         <AnimatePresence>
