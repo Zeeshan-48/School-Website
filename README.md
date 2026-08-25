@@ -1,16 +1,79 @@
-# React + Vite
+# School Website & Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A comprehensive, full-stack school website designed to showcase the institution to the public while providing a powerful admin dashboard for managing day-to-day operations.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Public Website:** Beautiful, responsive UI built with modern web technologies, showcasing school facilities, faculty, gallery, notices, and admission processes.
+- **Admin Dashboard:** Secure authentication system to manage various aspects of the school:
+  - **Admissions:** Review and process student admission applications.
+  - **Inquiries:** Handle contact forms and parent inquiries.
+  - **Notices & Events:** Publish important announcements.
+  - **Gallery:** Upload and manage school event photos.
+  - **Careers & Faculty:** Manage job applications and staff directory.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Frontend:**
+- React 19 (Vite)
+- Tailwind CSS v4 for styling
+- Framer Motion for rich animations
+- React Router DOM for routing
+- Axios for API requests
+- Lucide React for modern icons
+- React Hook Form for form handling
 
-## Expanding the Oxlint configuration
+**Backend:**
+- Node.js & Express.js
+- Sequelize ORM (MySQL) for database management
+- JSON Web Token (JWT) & bcrypt for secure authentication
+- Helmet & Express Rate Limit for security
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Project Structure
+
+The repository is organized into two main directories:
+- `/frontend` - Contains the React web application
+- `/backend` - Contains the Node.js API server
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18+)
+- MySQL Server
+
+### 1. Backend Setup
+
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the `backend` folder and configure the required environment variables (Database credentials, JWT Secret).
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   *The server will run with nodemon for automatic restarts.*
+
+### 2. Frontend Setup
+
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the `frontend` folder and add your API URL (e.g., `VITE_API_URL=http://localhost:5000/api`).
+4. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
+
+## License
+
+This project is proprietary. All rights reserved.
