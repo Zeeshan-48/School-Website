@@ -111,7 +111,7 @@ export const AdminLogin = () => {
                   value={credentials.username}
                   onChange={handleChange}
                   placeholder="admin or admin@school.com"
-                  className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full bg-white border .order-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm text-gray-900.placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -129,7 +129,7 @@ export const AdminLogin = () => {
                   value={credentials.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full bg-white border border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full bg-white border .border-gray-200 rounded-xl py-3.5 pl-11 pr-4 text-sm .text-gray-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>

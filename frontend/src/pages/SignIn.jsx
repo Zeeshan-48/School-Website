@@ -123,7 +123,7 @@ export const SignIn = () => {
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
                         placeholder="e.g. EMP-1042 or staff@apexschool.edu"
-                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] focus:border-transparent focus:bg-white transition-all font-inter"
+                        className="w-full pl-10 pr-4 py-3 .bg-slate-50 border .border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] focus:border-transparent focus:bg-white transition-all font-inter"
                       />
                     </div>
                   </div>
@@ -148,7 +148,7 @@ export const SignIn = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••••••"
-                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] focus:border-transparent focus:bg-white transition-all font-inter"
+                        className="w-full pl-10 pr-4 py-3 .bg-slate-50 border .border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#166534] focus:border-transparent focus:bg-white transition-all font-inter"
                       />
                     </div>
                   </div>
