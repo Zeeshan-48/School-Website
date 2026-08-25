@@ -148,7 +148,7 @@ export const AdminAdmissions = () => {
                           <span className="font-extrabold text-sm text-gray-900 block hover:text-blue-700 transition-colors">
                             {app.studentName}
                           </span>
-                          <span className="text-[10px] text-gray-500 font-mono">ID: {app.id} ({app.gender})</span>
+                          <span className="text-[10px] text-gray-500 font-mono">ID: {app.id}</span>
                         </div>
                       </td>
                       <td className="p-4">
@@ -238,10 +238,7 @@ export const AdminAdmissions = () => {
                     <span className="text-gray-500 block">Applying For:</span>
                     <span className="text-gray-900 font-bold text-sm">{selectedApp.grade}</span>
                   </div>
-                  <div>
-                    <span className="text-gray-500 block">Gender & DOB:</span>
-                    <span className="text-gray-900 font-bold">{selectedApp.gender} ({selectedApp.dob || 'N/A'})</span>
-                  </div>
+
                   <div>
                     <span className="text-gray-500 block">Parent / Guardian:</span>
                     <span className="text-gray-900 font-bold">{selectedApp.parentName}</span>
@@ -252,15 +249,15 @@ export const AdminAdmissions = () => {
                       {selectedApp.phone}
                     </a>
                   </div>
+                  <div>
+                    <span className="text-gray-500 block">Residential Address:</span>
+                    <span className="text-gray-700 font-medium">{selectedApp.address || 'Not specified'}</span>
+                  </div>
                   <div className="col-span-2">
                     <span className="text-gray-500 block">Email Address:</span>
                     <a href={`mailto:${selectedApp.email}`} className="text-blue-700 hover:underline font-bold">
                       {selectedApp.email}
                     </a>
-                  </div>
-                  <div className="col-span-2">
-                    <span className="text-gray-500 block">Residential Address:</span>
-                    <span className="text-gray-700 font-medium">{selectedApp.address || 'Not specified'}</span>
                   </div>
                   <div>
                     <span className="text-gray-500 block">Transport Facility:</span>
